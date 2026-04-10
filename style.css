@@ -358,3 +358,32 @@ button:active {
 ::-webkit-scrollbar {
     display: none;
 }
+
+/* ─── Language Switcher ─────────────────────────────────────────────────── */
+
+#language-switcher {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+}
+
+#language-switcher button {
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.2s ease;
+    min-width: auto;
+}
+
+#language-switcher button:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
