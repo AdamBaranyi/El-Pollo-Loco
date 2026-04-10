@@ -2,8 +2,12 @@
 
 Welcome to **El Pollo Loco**, an exciting 2D jump-and-run browser game! Take on the role of Pepe as you run through the Mexican desert, fighting off evil chickens and gathering enough salsa bottles to defeat the giant boss chicken.
 
-## 🎮 Play the Game
-Simply open the `index.html` file in any modern web browser to start playing. No extra installation required!
+## 🚀 How to Run
+There are two simple ways to run and play the game:
+1. **Directly in Browser:** Simply double-click the `index.html` file to open it in your default web browser.
+2. **VS Code Live Server (Recommended):** If you are using Visual Studio Code, right-click on `index.html` and select **"Open with Live Server"**.
+
+No extra installation or software is required!
 
 ## ✨ Features
 * **Two Action-Packed Levels:** Start with an easy path in Level 1 and experience a longer, much harder journey in Level 2!
