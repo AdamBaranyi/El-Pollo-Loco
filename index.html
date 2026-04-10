@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Pollo Loco</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/8_coin/coin_1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Portrait mode message (mobile only) -->
+    <div id="rotate-message">
+        <div class="rotate-icon">↻</div>
+        <p>Drehe dein Gerät um zu spielen!</p>
+        <p>Turn your device to play!</p>
+    </div>
+
+    <!-- Game wrapper -->
+    <div id="wrapper">
+
+        <!-- Start screen -->
+        <div id="start-screen">
+            <div id="start-content">
+                <div class="start-buttons">
+                    <button id="start-btn" onclick="startGame(1)">Spielen (Level 1)</button>
+                    <button id="start-btn-2" onclick="startGame(2)" style="margin-top: 10px;">Spielen (Level 2)</button>
+                    <button id="controls-btn" onclick="openControls()" style="margin-top: 10px;">Steuerung</button>
+                    <a href="impressum.html" class="imprint-link" style="margin-top: 10px;">Impressum</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls dialog -->
+        <div id="controls-dialog" class="dialog hidden" onclick="closeOnBackdrop(event, 'controls-dialog')">
+            <div class="dialog-inner">
+                <button class="close-btn" onclick="closeDialog('controls-dialog')">✕</button>
+                <h2>Steuerung</h2>
+                <div class="controls-list">
+                    <div class="control-row">
+                        <span>← →</span><span>Laufen</span>
+                    </div>
+                    <div class="control-row">
+                        <span>↑ / Leertaste</span><span>Springen</span>
+                    </div>
+                    <div class="control-row">
+                        <span>D</span><span>Flasche werfen</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canvas area -->
+        <div id="canvas-container">
+            <canvas id="canvas" width="720" height="480"></canvas>
+
+            <!-- HUD buttons -->
+            <button id="mute-btn" onclick="toggleMute()" title="Ton an/aus">🔊</button>
+            <button id="fullscreen-btn" onclick="toggleFullscreen()" title="Vollbild">⛶</button>
+
+            <!-- Mobile touch buttons (only visible on small screens) -->
+            <div id="mobile-controls">
+                <div class="mobile-left-group">
+                    <button class="mobile-btn" id="btn-left">◀</button>
+                    <button class="mobile-btn" id="btn-right">▶</button>
+                </div>
+                <div class="mobile-right-group">
+                    <button class="mobile-btn" id="btn-throw">🍾</button>
+                    <button class="mobile-btn" id="btn-jump">▲</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over screen -->
+        <div id="game-over-screen" class="hidden">
+            <div class="end-content">
+                <h2>Game Over!</h2>
+                <button onclick="restartGame()">Neu starten</button>
+                <button onclick="goHome()">Zum Start</button>
+            </div>
+        </div>
+
+        <!-- Win screen -->
+        <div id="win-screen" class="hidden">
+            <div class="end-content win-content">
+                <h2>Du hast gewonnen!</h2>
+                <button onclick="nextLevel()">Nächstes Level</button>
+                <button onclick="restartGame()">Nochmal spielen</button>
+                <button onclick="goHome()">Zum Start</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts – base classes first, then world, then level, then main script -->
+    <script src="classes/drawable-object.class.js"></script>
+    <script src="classes/movable-object.class.js"></script>
+    <script src="classes/background-object.class.js"></script>
+    <script src="classes/cloud.class.js"></script>
+    <script src="classes/coin.class.js"></script>
+    <script src="classes/salsa-bottle.class.js"></script>
+    <script src="classes/status-bar.class.js"></script>
+    <script src="classes/level.class.js"></script>
+    <script src="classes/chicken.class.js"></script>
+    <script src="classes/small-chicken.class.js"></script>
+    <script src="classes/throwable-object.class.js"></script>
+    <script src="classes/endboss.class.js"></script>
+    <script src="classes/character.class.js"></script>
+    <script src="classes/world.class.js"></script>
+    <script src="levels/level1.js"></script>
+    <script src="levels/level2.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

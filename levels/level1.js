@@ -1,0 +1,72 @@
+/**
+ * Builds and returns the background tile objects for level 1.
+ * Alternates between image variants to create a seamless loop.
+ * @returns {BackgroundObject[]}
+ */
+function createBackgroundObjects() {
+    const objs = [];
+    for (let i = -1; i <= 3; i++) {
+        const v = Math.abs(i % 2) === 0 ? '1' : '2';
+        objs.push(
+            new BackgroundObject('img/5_background/layers/air.png', 719 * i),
+            new BackgroundObject(`img/5_background/layers/3_third_layer/${v}.png`, 719 * i),
+            new BackgroundObject(`img/5_background/layers/2_second_layer/${v}.png`, 719 * i),
+            new BackgroundObject(`img/5_background/layers/1_first_layer/${v}.png`, 719 * i)
+        );
+    }
+    return objs;
+}
+
+/**
+ * Initializes and returns the complete Level 1 instance.
+ * @returns {Level}
+ */
+function initLevel1() {
+    return new Level(
+        [
+            new Chicken(700),
+            new Chicken(900),
+            new SmallChicken(1000),
+            new Chicken(1200),
+            new SmallChicken(1350),
+            new Chicken(1500),
+            new SmallChicken(1700),
+            new Chicken(1900),
+            new Endboss()
+        ],
+        [
+            new Cloud(200),
+            new Cloud(700),
+            new Cloud(1300),
+            new Cloud(1900),
+            new Cloud(2400)
+        ],
+        createBackgroundObjects(),
+        [
+            new Coin(300, 280),
+            new Coin(480, 230),
+            new Coin(650, 280),
+            new Coin(850, 200),
+            new Coin(1050, 260),
+            new Coin(1250, 280),
+            new Coin(1450, 230),
+            new Coin(1650, 260),
+            new Coin(1850, 280),
+            new Coin(2050, 230)
+        ],
+        [
+            new SalsaBottle(300),
+            new SalsaBottle(450),
+            new SalsaBottle(600),
+            new SalsaBottle(750),
+            new SalsaBottle(900),
+            new SalsaBottle(1100),
+            new SalsaBottle(1250),
+            new SalsaBottle(1450),
+            new SalsaBottle(1600),
+            new SalsaBottle(1800),
+            new SalsaBottle(2000),
+            new SalsaBottle(2200)
+        ]
+    );
+}
