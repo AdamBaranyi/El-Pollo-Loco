@@ -26,7 +26,7 @@ function clearAllIntervals() {
     allIntervals = [];
 }
 
-// ─── Keyboard ───────────────────────────────────────────────────────────────
+// Keyboard
 
 /** Holds the current state of all relevant keyboard keys. */
 const keyboard = {
@@ -51,7 +51,7 @@ window.addEventListener('keyup', e => {
     if (e.keyCode === 68) keyboard.D = false;
 });
 
-// ─── Mobile touch controls ───────────────────────────────────────────────────
+// Mobile touch controls
 
 /**
  * Binds touch events to a mobile button to simulate key presses.
@@ -71,7 +71,7 @@ bindMobileButton('btn-right', 'RIGHT');
 bindMobileButton('btn-jump', 'UP');
 bindMobileButton('btn-throw', 'D');
 
-// ─── Sound Manager ───────────────────────────────────────────────────────────
+// Sound Manager
 
 /**
  * Manages all in-game audio using the Web Audio API.
@@ -200,7 +200,7 @@ class SoundManager {
 
 const soundManager = new SoundManager();
 
-// ─── Game lifecycle ───────────────────────────────────────────────────────────
+// Game lifecycle
 
 /**
  * Starts the game: hides the start screen and initializes the world.
@@ -250,7 +250,7 @@ function goHome() {
     soundManager.stopBgMusic();
 }
 
-// ─── UI helpers ───────────────────────────────────────────────────────────────
+// UI helpers
 
 /**
  * Opens the controls dialog overlay.
@@ -304,4 +304,10 @@ function toggleFullscreen() {
 }
 
 // Apply saved mute state on load
-updateMuteButton();
+/**
+ * Initialization function called on page load.
+ */
+function init() {
+    updateMuteButton();
+    applyTranslations();
+}

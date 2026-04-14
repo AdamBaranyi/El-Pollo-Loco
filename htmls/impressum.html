@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="impTitle">Impressum – El Pollo Loco</title>
+    <link rel="icon" href="../img/8_coin/coin_1.png">
+    <link rel="stylesheet" href="../styles/impressum.css">
+</head>
+<body>
+    <div class="container">
+        <h1 data-i18n="impTitle">Impressum</h1>
+
+        <h2 data-i18n="impContactAddress">Kontaktadresse</h2>
+        <address>
+            Max Mustermann<br>
+            Musterstraße 1<br>
+            1234 Musterstadt<br>
+            Schweiz
+        </address>
+
+        <h2 data-i18n="impContact">Kontakt</h2>
+        <p>
+            E-Mail: <a href="mailto:info@example.com">info@example.com</a><br>
+            Telefon: +41 (0) 12 345 67 89
+        </p>
+
+        <h2 data-i18n="impAuthUser">Vertretungsberechtigte Person</h2>
+        <p>
+            Max Mustermann
+        </p>
+
+        <h2 data-i18n="impDisclaimerTitle">Haftungsausschluss</h2>
+        <p data-i18n="impDisclaimerText">
+            Dieses Projekt wurde im Rahmen einer Ausbildung erstellt und dient ausschließlich
+            zu Lernzwecken. Die verwendeten Grafiken und Assets wurden vom Developer Akademie
+            bereitgestellt.
+        </p>
+
+        <h2 data-i18n="impCopyrightTitle">Urheberrecht</h2>
+        <p data-i18n="impCopyrightText">
+            Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten
+            unterliegen dem Schweizer Urheberrecht. Die Vervielfältigung, Bearbeitung,
+            Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes
+            bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+        </p>
+
+        <a href="../index.html" class="back-link" data-i18n="impBack">← Zurück zum Spiel</a>
+    </div>
+    <script src="../scripts/translations.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            applyTranslations();
+        });
+    </script>
+</body>
+</html>

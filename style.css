@@ -1,6 +1,12 @@
-/* ─── Fonts & Reset ──────────────────────────────────────────────────────── */
+/* Fonts & Reset */
 
-@import url('https://fonts.googleapis.com/css2?family=Boogaloo&display=swap');
+@font-face {
+    font-family: 'Boogaloo';
+    src: url('./fonts/Boogaloo/Boogaloo-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 *,
 *::before,
@@ -22,7 +28,7 @@ body {
     color: #fff;
 }
 
-/* ─── Wrapper & Canvas ───────────────────────────────────────────────────── */
+/* Wrapper & Canvas */
 
 #wrapper {
     position: relative;
@@ -45,7 +51,7 @@ body {
     height: 100%;
 }
 
-/* ─── Start Screen ───────────────────────────────────────────────────────── */
+/* Start Screen */
 
 #start-screen {
     position: absolute;
@@ -72,7 +78,7 @@ body {
     gap: 10px;
 }
 
-/* ─── Buttons ────────────────────────────────────────────────────────────── */
+/* Buttons */
 
 button {
     font-family: 'Boogaloo', cursive;
@@ -117,7 +123,7 @@ button:active {
     text-decoration: underline;
 }
 
-/* ─── Dialogs ────────────────────────────────────────────────────────────── */
+/* Dialogs */
 
 .dialog {
     position: absolute;
@@ -181,7 +187,7 @@ button:active {
     text-align: right;
 }
 
-/* ─── HUD buttons (mute / fullscreen) ───────────────────────────────────── */
+/* HUD buttons (mute / fullscreen) */
 
 #mute-btn,
 #fullscreen-btn {
@@ -203,7 +209,7 @@ button:active {
     right: 10px;
 }
 
-/* ─── End Screens ────────────────────────────────────────────────────────── */
+/* End Screens */
 
 #game-over-screen,
 #win-screen {
@@ -253,7 +259,7 @@ button:active {
     min-width: 180px;
 }
 
-/* ─── Mobile Controls ────────────────────────────────────────────────────── */
+/* Mobile Controls */
 
 #mobile-controls {
     display: none;
@@ -285,7 +291,7 @@ button:active {
     user-select: none;
 }
 
-/* ─── Rotate Message ─────────────────────────────────────────────────────── */
+/* Rotate Message */
 
 #rotate-message {
     display: none;
@@ -315,7 +321,7 @@ button:active {
     100% { transform: rotate(0deg); }
 }
 
-/* ─── Responsive (tablet / phone) ───────────────────────────────────────── */
+/* Responsive (tablet / phone) */
 
 @media (max-width: 768px) {
     body {
@@ -359,7 +365,7 @@ button:active {
     display: none;
 }
 
-/* ─── Language Switcher ─────────────────────────────────────────────────── */
+/* Language Switcher */
 
 #language-switcher {
     position: absolute;

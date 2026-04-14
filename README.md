@@ -34,4 +34,4 @@ No extra installation or software is required!
 Pepe's village has been overrun by a crazed gang of chickens controlled by a giant Endboss. It's up to you to navigate the perilous desert, collect spicy salsa bottles, and throw them at the Endboss to reclaim the village! Only those with the best jumping skills and aim can save the day.
 
 ---
-*Created by Adam Baranyi.*
+

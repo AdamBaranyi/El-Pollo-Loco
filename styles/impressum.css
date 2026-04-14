@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'Boogaloo';
+    src: url('../fonts/Boogaloo/Boogaloo-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background: #1a0d00;
+    color: #f5e8c8;
+    font-family: 'Boogaloo', cursive, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+}
+.container {
+    max-width: 680px;
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 40px;
+}
+h1 {
+    font-size: 2.5rem;
+    color: #e8a830;
+    margin-bottom: 32px;
+}
+h2 {
+    font-size: 1.4rem;
+    color: #e8a830;
+    margin: 28px 0 10px;
+}
+p, address {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    font-style: normal;
+}
+a { color: #e8a830; }
+a:hover { text-decoration: underline; }
+.back-link {
+    display: inline-block;
+    margin-top: 36px;
+    font-size: 1.1rem;
+    color: #e8a830;
+    text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
