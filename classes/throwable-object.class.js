@@ -65,11 +65,17 @@ class ThrowableObject extends MovableObject {
         this.splashing = true;
         this.speedY = 0;
         this.acceleration = 0;
+        this.runSplashAnimation();
+    }
+
+    /**
+     * Cycles through splash frames and marks the bottle as done when finished.
+     */
+    runSplashAnimation() {
         let frame = 0;
         const id = setInterval(() => {
             if (frame < this.IMAGES_SPLASH.length) {
-                this.img = this.imageCache[this.IMAGES_SPLASH[frame]];
-                frame++;
+                this.img = this.imageCache[this.IMAGES_SPLASH[frame++]];
             } else {
                 clearInterval(id);
                 this.splashDone = true;

@@ -204,19 +204,24 @@ class World {
     checkCoinCollisions() {
         this.level.coins = this.level.coins.filter(coin => {
             if (this.character.isColliding(coin)) {
-                this.coinsCollected++;
-                const pct = Math.min(100, this.coinsCollected * 10);
-                this.statusBarCoin.setPercentage(pct);
-                soundManager.collectCoin();
-                
-                if (this.coinsCollected % 10 === 0 && this.character.energy < 100) {
-                    this.character.energy = Math.min(100, this.character.energy + 20);
-                    this.statusBarHealth.setPercentage(this.character.energy);
-                }
+                this.collectCoin();
                 return false;
             }
             return true;
         });
+    }
+
+    /**
+     * Handles coin collection: updates counter, status bar, and grants bonus health every 10 coins.
+     */
+    collectCoin() {
+        this.coinsCollected++;
+        this.statusBarCoin.setPercentage(Math.min(100, this.coinsCollected * 10));
+        soundManager.collectCoin();
+        if (this.coinsCollected % 10 === 0 && this.character.energy < 100) {
+            this.character.energy = Math.min(100, this.character.energy + 20);
+            this.statusBarHealth.setPercentage(this.character.energy);
+        }
     }
 
     /**

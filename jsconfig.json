@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "checkJs": false,
+        "target": "ES6"
+    },
+    "include": [
+        "script.js",
+        "scripts/**/*.js",
+        "classes/**/*.js",
+        "levels/**/*.js"
+    ]
+}

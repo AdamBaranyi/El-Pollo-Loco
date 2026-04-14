@@ -18,55 +18,87 @@ function createBackgroundObjects() {
 }
 
 /**
+ * Returns the enemy array for level 1.
+ * @returns {MovableObject[]}
+ */
+function createEnemiesL1() {
+    return [
+        new Chicken(700),
+        new Chicken(900),
+        new SmallChicken(1000),
+        new Chicken(1200),
+        new SmallChicken(1350),
+        new Chicken(1500),
+        new SmallChicken(1700),
+        new Chicken(1900),
+        new Endboss()
+    ];
+}
+
+/**
+ * Returns the cloud array for level 1.
+ * @returns {Cloud[]}
+ */
+function createCloudsL1() {
+    return [
+        new Cloud(200),
+        new Cloud(700),
+        new Cloud(1300),
+        new Cloud(1900),
+        new Cloud(2400)
+    ];
+}
+
+/**
+ * Returns the coin array for level 1.
+ * @returns {Coin[]}
+ */
+function createCoinsL1() {
+    return [
+        new Coin(300, 280),
+        new Coin(480, 230),
+        new Coin(650, 280),
+        new Coin(850, 200),
+        new Coin(1050, 260),
+        new Coin(1250, 280),
+        new Coin(1450, 230),
+        new Coin(1650, 260),
+        new Coin(1850, 280),
+        new Coin(2050, 230)
+    ];
+}
+
+/**
+ * Returns the salsa bottle array for level 1.
+ * @returns {SalsaBottle[]}
+ */
+function createBottlesL1() {
+    return [
+        new SalsaBottle(300),
+        new SalsaBottle(450),
+        new SalsaBottle(600),
+        new SalsaBottle(750),
+        new SalsaBottle(900),
+        new SalsaBottle(1100),
+        new SalsaBottle(1250),
+        new SalsaBottle(1450),
+        new SalsaBottle(1600),
+        new SalsaBottle(1800),
+        new SalsaBottle(2000),
+        new SalsaBottle(2200)
+    ];
+}
+
+/**
  * Initializes and returns the complete Level 1 instance.
  * @returns {Level}
  */
 function initLevel1() {
     return new Level(
-        [
-            new Chicken(700),
-            new Chicken(900),
-            new SmallChicken(1000),
-            new Chicken(1200),
-            new SmallChicken(1350),
-            new Chicken(1500),
-            new SmallChicken(1700),
-            new Chicken(1900),
-            new Endboss()
-        ],
-        [
-            new Cloud(200),
-            new Cloud(700),
-            new Cloud(1300),
-            new Cloud(1900),
-            new Cloud(2400)
-        ],
+        createEnemiesL1(),
+        createCloudsL1(),
         createBackgroundObjects(),
-        [
-            new Coin(300, 280),
-            new Coin(480, 230),
-            new Coin(650, 280),
-            new Coin(850, 200),
-            new Coin(1050, 260),
-            new Coin(1250, 280),
-            new Coin(1450, 230),
-            new Coin(1650, 260),
-            new Coin(1850, 280),
-            new Coin(2050, 230)
-        ],
-        [
-            new SalsaBottle(300),
-            new SalsaBottle(450),
-            new SalsaBottle(600),
-            new SalsaBottle(750),
-            new SalsaBottle(900),
-            new SalsaBottle(1100),
-            new SalsaBottle(1250),
-            new SalsaBottle(1450),
-            new SalsaBottle(1600),
-            new SalsaBottle(1800),
-            new SalsaBottle(2000),
-            new SalsaBottle(2200)
-        ]
+        createCoinsL1(),
+        createBottlesL1()
     );
 }
