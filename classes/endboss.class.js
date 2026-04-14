@@ -1,5 +1,6 @@
 /**
  * Represents the end boss enemy (giant chicken).
+ * Accepts an optional config object to adjust difficulty per level.
  */
 class Endboss extends MovableObject {
     x = 2400;
@@ -8,9 +9,11 @@ class Endboss extends MovableObject {
     isEndboss = true;
     height = 400;
     energy = 100;
-    hitStrength = 20;
     canBeStopped = false;
     firstContact = false;
+    isAlerting = false;
+    isCharging = false;
+    phase = 1;
     speed = 0.4;
     otherDirection = false;
     offset = { top: 60, bottom: 20, left: 30, right: 30 };
@@ -57,10 +60,19 @@ class Endboss extends MovableObject {
     ];
 
     /**
-     * Creates the endboss and starts its animation.
+     * Creates the endboss with optional difficulty config.
+     * @param {Object} [config={}] - Optional overrides for difficulty.
+     * @param {number} [config.hitStrength=20] - Damage dealt to character per hit.
+     * @param {number} [config.chargeInterval=3000] - Ms between charge attacks.
+     * @param {number} [config.chargeMultiplier=1.8] - Speed multiplier during a charge.
+     * @param {number[]} [config.phaseSpeed=[1.5,2.5,4.0]] - Base speed per phase.
      */
-    constructor() {
+    constructor(config = {}) {
         super();
+        this.hitStrength = config.hitStrength || 20;
+        this.chargeInterval = config.chargeInterval || 3000;
+        this.chargeMultiplier = config.chargeMultiplier || 1.8;
+        this.phaseSpeed = config.phaseSpeed || [1.5, 2.5, 4.0];
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
@@ -71,7 +83,7 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * Starts the endboss animation and movement loop.
+     * Starts the endboss animation loop at 150ms intervals.
      */
     animate() {
         const id = setInterval(() => this.handleAnimation(), 150);
@@ -79,38 +91,89 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * Selects the correct animation frame based on current state.
+     * Selects the correct animation based on current state.
      */
     handleAnimation() {
-        if (this.isDead()) {
-            this.playAnimation(this.IMAGES_DEAD);
-        } else if (this.isHurt()) {
-            this.playAnimation(this.IMAGES_HURT);
-        } else if (!this.firstContact) {
-            this.playAnimation(this.IMAGES_WALKING);
-        } else {
-            this.playAnimation(this.IMAGES_ATTACK);
-        }
+        if (this.isDead()) return this.playAnimation(this.IMAGES_DEAD);
+        if (this.isHurt()) return this.playAnimation(this.IMAGES_HURT);
+        if (this.isAlerting) return this.playAnimation(this.IMAGES_ALERT);
+        if (!this.firstContact) return this.playAnimation(this.IMAGES_WALKING);
+        this.playAnimation(this.IMAGES_ATTACK);
     }
 
     /**
-     * Triggers the boss's first contact alert and speeds it up.
+     * Triggers first contact: plays alert animation for 2s, then starts attacking.
      */
     triggerFirstContact() {
         this.firstContact = true;
-        this.speed = 1.5;
+        this.isAlerting = true;
+        setTimeout(() => {
+            this.isAlerting = false;
+            this.startChargeLoop();
+        }, 2000);
     }
 
     /**
-     * Moves the endboss toward the character's position.
+     * Starts the periodic charge attack loop using the configured interval.
+     */
+    startChargeLoop() {
+        const id = setInterval(() => {
+            if (this.isDead()) { clearInterval(id); return; }
+            this.triggerCharge();
+        }, this.chargeInterval);
+        storeInterval(id);
+    }
+
+    /**
+     * Triggers a short charge attack for 700ms.
+     */
+    triggerCharge() {
+        this.isCharging = true;
+        setTimeout(() => { this.isCharging = false; }, 700);
+    }
+
+    /**
+     * Updates the boss phase based on remaining energy.
+     * Phase 1: >60%, Phase 2: 30–60%, Phase 3: <30%
+     */
+    updatePhase() {
+        if (this.energy > 60) this.phase = 1;
+        else if (this.energy > 30) this.phase = 2;
+        else this.phase = 3;
+    }
+
+    /**
+     * Returns the base movement speed for the current phase.
+     * @returns {number}
+     */
+    getBaseSpeed() {
+        return this.phaseSpeed[this.phase - 1];
+    }
+
+    /**
+     * Moves the endboss toward the character with phase speed and charge multiplier.
      * @param {number} characterX - The character's current x position.
      */
     moveTowardCharacter(characterX) {
-        if (!this.firstContact || this.isDead()) return;
-        if (this.isHurt()) {
-            this.x += this.otherDirection ? -2.5 : 2.5; 
-            return;
-        }
+        if (!this.firstContact || this.isDead() || this.isAlerting) return;
+        if (this.isHurt()) { this.knockback(); return; }
+        this.updatePhase();
+        this.speed = this.isCharging ? this.getBaseSpeed() * this.chargeMultiplier : this.getBaseSpeed();
+        this.moveInDirection(characterX);
+    }
+
+    /**
+     * Knocks the endboss back slightly when hurt.
+     */
+    knockback() {
+        this.x += this.otherDirection ? -3 : 3;
+    }
+
+    /**
+     * Moves the endboss left or right toward the character.
+     * @param {number} characterX - The character's current x position.
+     */
+    moveInDirection(characterX) {
         if (characterX < this.x) {
             this.x -= this.speed;
             this.otherDirection = false;

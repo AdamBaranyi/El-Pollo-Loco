@@ -21,7 +21,12 @@ function createBackgroundObjectsL2() {
  * @returns {MovableObject[]}
  */
 function createEnemiesL2() {
-    const endboss = new Endboss();
+    const endboss = new Endboss({
+        hitStrength: 25,
+        chargeInterval: 2000,
+        chargeMultiplier: 2.0,
+        phaseSpeed: [2.0, 3.5, 5.5]
+    });
     endboss.x = 4200;
     return [
         new Chicken(700),
@@ -89,6 +94,7 @@ function createCoinsL2() {
 
 /**
  * Returns the salsa bottle array for level 2.
+ * Extra bottles placed near the endboss so players can restock before the final fight.
  * @returns {SalsaBottle[]}
  */
 function createBottlesL2() {
@@ -105,7 +111,11 @@ function createBottlesL2() {
         new SalsaBottle(2900),
         new SalsaBottle(3200),
         new SalsaBottle(3500),
-        new SalsaBottle(3800)
+        new SalsaBottle(3800),
+        new SalsaBottle(3950),
+        new SalsaBottle(4050),
+        new SalsaBottle(4100),
+        new SalsaBottle(4150)
     ];
 }
 
