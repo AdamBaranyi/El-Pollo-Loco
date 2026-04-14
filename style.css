@@ -56,11 +56,12 @@ body {
 #start-screen {
     position: absolute;
     inset: 0;
-    background: url('img/9_intro_outro_screens/start/startscreen_1.png') center / cover no-repeat;
+    background: url('img/9_intro_outro_screens/start/startscreen_1.png') center / 100% 100% no-repeat;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 36px;
+    padding-bottom: 2%;
+    padding-right: 12%;
     z-index: 10;
 }
 
@@ -242,7 +243,7 @@ button:active {
     background: rgba(0, 0, 0, 0.5);
     padding: 28px 48px;
     border-radius: 14px;
-    margin-top: 210px;
+    margin-top: 150px;
 }
 
 .end-content h2 {
@@ -349,6 +350,55 @@ button:active {
     }
 }
 
+/* Extra small devices / Mobile landscape heights */
+@media (max-height: 480px), (max-width: 480px) {
+    button {
+        font-size: 1rem;
+        padding: 6px 16px;
+    }
+    
+    #start-btn {
+        font-size: 1.2rem;
+        padding: 8px 24px;
+    }
+    
+    .start-buttons, #start-content {
+        gap: 6px;
+    }
+    
+    .imprint-link {
+        margin-top: 2px;
+        font-size: 0.85rem;
+    }
+
+    .end-content {
+        padding: 16px 24px;
+        margin-top: 100px;
+        gap: 8px;
+    }
+
+    .end-content button {
+        min-width: 140px;
+        font-size: 1rem;
+        padding: 6px 16px;
+    }
+
+    .dialog-inner {
+        padding: 20px 24px;
+        min-width: 280px;
+    }
+
+    .dialog-inner h2 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+
+    .control-row {
+        font-size: 1rem;
+        gap: 12px;
+    }
+}
+
 /* Portrait mode: hide game, show rotate prompt */
 @media (orientation: portrait) and (max-width: 900px) {
     #rotate-message {
@@ -369,8 +419,8 @@ button:active {
 
 #language-switcher {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10px;
+    right: 95px;
     z-index: 1000;
     display: flex;
     gap: 8px;

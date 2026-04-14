@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/8_coin/coin_1.png">
+    <link rel="icon" href="img/6_salsa_bottle/salsa_bottle.png">
 </head>
 <body onload="init()">
 
-    <div id="language-switcher">
-        <button onclick="setLanguage('en')">🇬🇧 EN</button>
-        <button onclick="setLanguage('de')">🇩🇪 DE</button>
-    </div>
+
 
     <!-- Portrait mode message (mobile only) -->
     <div id="rotate-message">
@@ -23,42 +20,65 @@
     <!-- Game wrapper -->
     <div id="wrapper">
 
-        <!-- Start screen -->
-        <div id="start-screen">
-            <div id="start-content">
-                <div class="start-buttons">
-                    <button id="start-btn" onclick="startGame(1)" data-i18n="playLevel1">Play (Level 1)</button>
-                    <button id="start-btn-2" onclick="startGame(2)" style="margin-top: 10px;" data-i18n="playLevel2">Play (Level 2)</button>
-                    <button id="controls-btn" onclick="openControls()" style="margin-top: 10px;" data-i18n="controlsBtn">Controls</button>
-                    <a href="htmls/impressum.html" class="imprint-link" style="margin-top: 10px;" data-i18n="imprint">Imprint</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls dialog -->
-        <div id="controls-dialog" class="dialog hidden" onclick="closeOnBackdrop(event, 'controls-dialog')">
-            <div class="dialog-inner">
-                <button class="close-btn" onclick="closeDialog('controls-dialog')">✕</button>
-                <h2 data-i18n="controlsTitle">Controls</h2>
-                <div class="controls-list">
-                    <div class="control-row">
-                        <span>← →</span><span data-i18n="walk">Walk</span>
-                    </div>
-                    <div class="control-row">
-                        <span>↑ / Leertaste</span><span data-i18n="jump">Jump</span>
-                    </div>
-                    <div class="control-row">
-                        <span>D</span><span data-i18n="throw">Throw Bottle</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Canvas area -->
         <div id="canvas-container">
             <canvas id="canvas" width="720" height="480"></canvas>
 
+            <!-- Start screen -->
+            <div id="start-screen">
+                <div id="start-content">
+                    <div class="start-buttons">
+                        <button id="start-btn" onclick="startGame(1)" data-i18n="playLevel1">Play (Level 1)</button>
+                        <button id="start-btn-2" onclick="startGame(2)" style="margin-top: 10px;" data-i18n="playLevel2">Play (Level 2)</button>
+                        <button id="controls-btn" onclick="openControls()" style="margin-top: 10px;" data-i18n="controlsBtn">Controls</button>
+                        <a href="htmls/impressum.html" class="imprint-link" style="margin-top: 10px;" data-i18n="imprint">Imprint</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls dialog -->
+            <div id="controls-dialog" class="dialog hidden" onclick="closeOnBackdrop(event, 'controls-dialog')">
+                <div class="dialog-inner">
+                    <button class="close-btn" onclick="closeDialog('controls-dialog')">✕</button>
+                    <h2 data-i18n="controlsTitle">Controls</h2>
+                    <div class="controls-list">
+                        <div class="control-row">
+                            <span>← →</span><span data-i18n="walk">Walk</span>
+                        </div>
+                        <div class="control-row">
+                            <span>↑ / Leertaste</span><span data-i18n="jump">Jump</span>
+                        </div>
+                        <div class="control-row">
+                            <span>D</span><span data-i18n="throw">Throw Bottle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Over screen -->
+            <div id="game-over-screen" class="hidden">
+                <div class="end-content">
+                    <h2 data-i18n="gameOverTitle">Game Over!</h2>
+                    <button onclick="restartGame()" data-i18n="restart">Restart</button>
+                    <button onclick="goHome()" data-i18n="home">Home</button>
+                </div>
+            </div>
+
+            <!-- Win screen -->
+            <div id="win-screen" class="hidden">
+                <div class="end-content win-content">
+                    <h2 data-i18n="winTitle">You won!</h2>
+                    <button onclick="nextLevel()" data-i18n="nextLevel">Next Level</button>
+                    <button onclick="restartGame()" data-i18n="playAgain">Play Again</button>
+                    <button onclick="goHome()" data-i18n="home">Home</button>
+                </div>
+            </div>
+
             <!-- HUD buttons -->
+            <div id="language-switcher">
+                <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                <button onclick="setLanguage('de')">🇩🇪 DE</button>
+            </div>
             <button id="mute-btn" onclick="toggleMute()" title="Ton an/aus">🔊</button>
             <button id="fullscreen-btn" onclick="toggleFullscreen()" title="Vollbild">⛶</button>
 
@@ -74,26 +94,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Game Over screen -->
-        <div id="game-over-screen" class="hidden">
-            <div class="end-content">
-                <h2 data-i18n="gameOverTitle">Game Over!</h2>
-                <button onclick="restartGame()" data-i18n="restart">Restart</button>
-                <button onclick="goHome()" data-i18n="home">Home</button>
-            </div>
-        </div>
-
-        <!-- Win screen -->
-        <div id="win-screen" class="hidden">
-            <div class="end-content win-content">
-                <h2 data-i18n="winTitle">You won!</h2>
-                <button onclick="nextLevel()" data-i18n="nextLevel">Next Level</button>
-                <button onclick="restartGame()" data-i18n="playAgain">Play Again</button>
-                <button onclick="goHome()" data-i18n="home">Home</button>
-            </div>
-        </div>
-
     </div>
 
     <!-- Scripts – base classes first, then world, then level, then main script -->

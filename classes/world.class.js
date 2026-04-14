@@ -37,7 +37,7 @@ class World {
         this.statusBarHealth = new StatusBar('health', 10, 0);
         this.statusBarCoin = new StatusBar('coin', 10, 40);
         this.statusBarBottle = new StatusBar('bottle', 10, 80);
-        this.statusBarEndboss = new StatusBar('endboss', 510, 0);
+        this.statusBarEndboss = new StatusBar('endboss', 510, 50);
         this.statusBarCoin.setPercentage(0);
         this.statusBarBottle.setPercentage(0);
     }
@@ -49,8 +49,8 @@ class World {
         const id = setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-            this.checkThrowableGround();
             this.checkThrowableHits();
+            this.checkThrowableGround();
             this.cleanupThrowables();
             this.moveEndboss();
             this.checkEndbossFirstContact();
