@@ -9,6 +9,7 @@ class Character extends MovableObject {
     speed = 3;
     groundY = 110;
     lastMoveTime = Date.now();
+    lastSnoreTime = 0;
     currentDeadFrame = 0;
     world;
     offset = { top: 120, bottom: 10, left: 20, right: 20 };
@@ -108,6 +109,7 @@ class Character extends MovableObject {
      */
     handleMovement() {
         if (this.isDead()) return;
+        if (this.world.paused) return;
         this.handleWalk();
         this.handleJump();
         this.world.updateCamera();
@@ -155,8 +157,17 @@ class Character extends MovableObject {
         const isMoving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
         if (isMoving) return this.playAnimation(this.IMAGES_WALKING);
         const isLongIdle = Date.now() - this.lastMoveTime > 5000;
-        if (isLongIdle) return this.playAnimation(this.IMAGES_LONG_IDLE);
+        if (isLongIdle) { this.playSnore(); return this.playAnimation(this.IMAGES_LONG_IDLE); }
         this.playAnimation(this.IMAGES_IDLE);
+    }
+
+    /**
+     * Plays a snore sound every 3 seconds during sleep animation.
+     */
+    playSnore() {
+        if (Date.now() - this.lastSnoreTime < 3000) return;
+        this.lastSnoreTime = Date.now();
+        soundManager.snore();
     }
 
     /**

@@ -17,7 +17,7 @@
 }
 
 body {
-    background: #1a0d00 url('img/5_background/air.png') center / cover no-repeat;
+    background: #1a0d00;
     font-family: 'Boogaloo', cursive, sans-serif;
     min-height: 100dvh;
     display: flex;
@@ -190,6 +190,7 @@ button:active {
 
 /* HUD buttons (mute / fullscreen) */
 
+#pause-btn,
 #mute-btn,
 #fullscreen-btn {
     position: absolute;
@@ -199,7 +200,12 @@ button:active {
     background: rgba(0, 0, 0, 0.45);
     color: #fff;
     border-radius: 6px;
-    z-index: 5;
+    z-index: 15;
+}
+
+#pause-btn {
+    display: none;
+    right: 94px;
 }
 
 #mute-btn {
@@ -420,7 +426,7 @@ button:active {
 #language-switcher {
     position: absolute;
     top: 10px;
-    right: 95px;
+    left: 10px;
     z-index: 1000;
     display: flex;
     gap: 8px;

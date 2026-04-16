@@ -1,7 +1,8 @@
 /**
- * The main game world. Manages the draw loop, physics, and game state.
+ * The main game world. Manages the game loop, physics, and game state.
+ * Extends WorldRenderer for all canvas drawing logic.
  */
-class World {
+class World extends WorldRenderer {
     character = new Character();
     throwableObjects = [];
     camera_x = 0;
@@ -9,6 +10,8 @@ class World {
     bottlesCollected = 0;
     throwPending = false;
     gameEnded = false;
+    paused = false;
+    score = 0;
     animFrame;
     endboss;
 
@@ -19,6 +22,7 @@ class World {
      * @param {Level} level - The current level object.
      */
     constructor(canvas, keyboard, level) {
+        super();
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
@@ -47,6 +51,7 @@ class World {
      */
     run() {
         const id = setInterval(() => {
+            if (this.paused) return;
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkThrowableHits();
@@ -57,89 +62,6 @@ class World {
             this.checkGameEnd();
         }, 1000 / 60);
         storeInterval(id);
-    }
-
-    /**
-     * Updates the camera position to follow the character.
-     */
-    updateCamera() {
-        this.camera_x = -this.character.x + 100;
-        this.camera_x = Math.min(0, this.camera_x);
-    }
-
-    /**
-     * Main draw loop — clears canvas and renders all game objects each frame.
-     */
-    draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.drawWorldObjects();
-        this.ctx.translate(-this.camera_x, 0);
-        this.drawFixedUI();
-        this.animFrame = requestAnimationFrame(() => this.draw());
-    }
-
-    /**
-     * Draws all scrolling world objects onto the canvas.
-     */
-    drawWorldObjects() {
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottles);
-        this.addObjectsToMap(this.throwableObjects);
-        this.addObjectsToMap(this.level.enemies);
-        this.addToMap(this.character);
-    }
-
-    /**
-     * Draws all fixed HUD elements (status bars) on top of the canvas.
-     */
-    drawFixedUI() {
-        this.addToMap(this.statusBarHealth);
-        this.addToMap(this.statusBarCoin);
-        this.addToMap(this.statusBarBottle);
-        if (this.endboss && this.endboss.firstContact) {
-            this.addToMap(this.statusBarEndboss);
-        }
-    }
-
-    /**
-     * Draws a single object, handling horizontal flip if needed.
-     * @param {DrawableObject} mo - The object to draw.
-     */
-    addToMap(mo) {
-        if (mo.otherDirection) this.flipImage(mo);
-        mo.draw(this.ctx);
-        if (mo.otherDirection) this.flipImageBack(mo);
-    }
-
-    /**
-     * Flips the canvas context to draw an object facing left.
-     * @param {DrawableObject} mo
-     */
-    flipImage(mo) {
-        this.ctx.save();
-        this.ctx.translate(mo.width, 0);
-        this.ctx.scale(-1, 1);
-        mo.x = mo.x * -1;
-    }
-
-    /**
-     * Restores the canvas context after a horizontal flip.
-     * @param {DrawableObject} mo
-     */
-    flipImageBack(mo) {
-        mo.x = mo.x * -1;
-        this.ctx.restore();
-    }
-
-    /**
-     * Calls addToMap for each object in an array.
-     * @param {DrawableObject[]} objects
-     */
-    addObjectsToMap(objects) {
-        objects.forEach(o => this.addToMap(o));
     }
 
     /**
@@ -196,6 +118,18 @@ class World {
         enemy.die();
         this.character.speedY = 15;
         soundManager.enemyDead();
+        this.score += enemy instanceof SmallChicken ? 100 : 50;
+        this.scheduleEnemyRemoval(enemy);
+    }
+
+    /**
+     * Removes a dead enemy from the level after 1 second.
+     * @param {MovableObject} enemy
+     */
+    scheduleEnemyRemoval(enemy) {
+        setTimeout(() => {
+            this.level.enemies = this.level.enemies.filter(e => e !== enemy);
+        }, 1000);
     }
 
     /**
@@ -203,10 +137,7 @@ class World {
      */
     checkCoinCollisions() {
         this.level.coins = this.level.coins.filter(coin => {
-            if (this.character.isColliding(coin)) {
-                this.collectCoin();
-                return false;
-            }
+            if (this.character.isColliding(coin)) { this.collectCoin(); return false; }
             return true;
         });
     }
@@ -216,6 +147,7 @@ class World {
      */
     collectCoin() {
         this.coinsCollected++;
+        this.score += 10;
         this.statusBarCoin.setPercentage(Math.min(100, this.coinsCollected * 10));
         soundManager.collectCoin();
         if (this.coinsCollected % 10 === 0 && this.character.energy < 100) {
@@ -231,8 +163,7 @@ class World {
         this.level.bottles = this.level.bottles.filter(bottle => {
             if (this.character.isColliding(bottle) && this.bottlesCollected < 10) {
                 this.bottlesCollected++;
-                const pct = this.bottlesCollected * 10;
-                this.statusBarBottle.setPercentage(pct);
+                this.statusBarBottle.setPercentage(this.bottlesCollected * 10);
                 soundManager.collectBottle();
                 return false;
             }
@@ -274,9 +205,7 @@ class World {
         this.throwableObjects.forEach(bottle => {
             if (bottle.splashing) return;
             this.level.enemies.forEach(enemy => {
-                if (!enemy.isDead() && bottle.isColliding(enemy)) {
-                    this.handleBottleHit(bottle, enemy);
-                }
+                if (!enemy.isDead() && bottle.isColliding(enemy)) this.handleBottleHit(bottle, enemy);
             });
         });
     }
@@ -288,17 +217,31 @@ class World {
      */
     handleBottleHit(bottle, enemy) {
         bottle.splash();
-        if (enemy.isEndboss) {
-            enemy.hit(20);
-        } else {
-            enemy.hit(50);
-        }
         soundManager.splash();
-        if (enemy.isEndboss) {
-            this.statusBarEndboss.setPercentage(enemy.energy);
-        }
-        if (enemy.isDead() && enemy.die) enemy.die();
-        if (enemy.isDead() && !enemy.isEndboss) soundManager.enemyDead();
+        enemy.hit(enemy.isEndboss ? 20 : 50);
+        if (enemy.isEndboss) this.onEndbossHit(enemy);
+        if (!enemy.isEndboss && enemy.isDead()) this.onEnemyKilled(enemy);
+    }
+
+    /**
+     * Handles endboss-specific bottle hit: updates status bar, plays sound, awards score.
+     * @param {MovableObject} enemy
+     */
+    onEndbossHit(enemy) {
+        this.statusBarEndboss.setPercentage(enemy.energy);
+        soundManager.endbossHurt();
+        if (enemy.isDead()) { if (enemy.die) enemy.die(); this.score += 500; }
+    }
+
+    /**
+     * Handles regular enemy death by bottle: plays sound, awards score, schedules removal.
+     * @param {MovableObject} enemy
+     */
+    onEnemyKilled(enemy) {
+        if (enemy.die) enemy.die();
+        soundManager.enemyDead();
+        this.score += enemy instanceof SmallChicken ? 100 : 50;
+        this.scheduleEnemyRemoval(enemy);
     }
 
     /**
@@ -321,6 +264,7 @@ class World {
     checkEndbossFirstContact() {
         if (this.endboss && !this.endboss.firstContact && this.character.x > (this.endboss.x - 600)) {
             this.endboss.triggerFirstContact();
+            soundManager.startEndbossMusic();
         }
     }
 
@@ -330,14 +274,8 @@ class World {
     checkGameEnd() {
         if (this.gameEnded) return;
         const deadAnimDone = this.character.currentDeadFrame >= this.character.IMAGES_DEAD.length - 1;
-        if (this.character.isDead() && deadAnimDone) {
-            this.gameEnded = true;
-            this.triggerGameOver();
-        }
-        if (this.endboss && this.endboss.isDead()) {
-            this.gameEnded = true;
-            this.triggerWin();
-        }
+        if (this.character.isDead() && deadAnimDone) { this.gameEnded = true; this.triggerGameOver(); }
+        if (this.endboss && this.endboss.isDead()) { this.gameEnded = true; this.triggerWin(); }
     }
 
     /**
@@ -347,6 +285,7 @@ class World {
         clearAllIntervals();
         cancelAnimationFrame(this.animFrame);
         soundManager.gameOver();
+        this.saveHighscore();
         setTimeout(() => document.getElementById('game-over-screen').classList.remove('hidden'), 500);
     }
 
@@ -357,6 +296,15 @@ class World {
         clearAllIntervals();
         cancelAnimationFrame(this.animFrame);
         soundManager.win();
+        this.saveHighscore();
         setTimeout(() => document.getElementById('win-screen').classList.remove('hidden'), 1800);
+    }
+
+    /**
+     * Saves the current score as highscore in localStorage if it's a new record.
+     */
+    saveHighscore() {
+        const best = parseInt(localStorage.getItem('highscore') || '0');
+        if (this.score > best) localStorage.setItem('highscore', this.score);
     }
 }

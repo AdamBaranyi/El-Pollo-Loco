@@ -26,30 +26,8 @@ function clearAllIntervals() {
     allIntervals = [];
 }
 
-// Keyboard
-
-/** Holds the current state of all relevant keyboard keys. */
-const keyboard = {
-    LEFT: false,
-    RIGHT: false,
-    UP: false,
-    D: false
-};
-
-window.addEventListener('keydown', e => {
-    if (e.keyCode === 37) keyboard.LEFT = true;
-    if (e.keyCode === 39) keyboard.RIGHT = true;
-    if (e.keyCode === 38 || e.keyCode === 32) keyboard.UP = true;
-    if (e.keyCode === 68) keyboard.D = true;
-    if (e.keyCode === 32) e.preventDefault();
-});
-
-window.addEventListener('keyup', e => {
-    if (e.keyCode === 37) keyboard.LEFT = false;
-    if (e.keyCode === 39) keyboard.RIGHT = false;
-    if (e.keyCode === 38 || e.keyCode === 32) keyboard.UP = false;
-    if (e.keyCode === 68) keyboard.D = false;
-});
+/** @type {Keyboard} */
+const keyboard = new Keyboard();
 
 // Mobile touch controls
 
@@ -66,153 +44,39 @@ function bindMobileButton(id, key) {
     btn.addEventListener('contextmenu', e => e.preventDefault());
 }
 
-bindMobileButton('btn-left', 'LEFT');
-bindMobileButton('btn-right', 'RIGHT');
-bindMobileButton('btn-jump', 'UP');
-bindMobileButton('btn-throw', 'D');
-
-// Sound Manager
-
-/**
- * Manages all in-game audio using the Web Audio API.
- */
-class SoundManager {
-    constructor() {
-        this.audioCtx = null;
-        this.muted = localStorage.getItem('muted') === 'true';
-        this.bgInterval = null;
-        this.bgNote = 0;
-        this.bgNotes = [
-            330, 0, 330, 440,  0, 440, 330, 220,  
-            330, 0, 330, 440,  0, 440, 330, 220,
-            440, 0, 440, 554,  0, 554, 440, 330, 
-            330, 0, 330, 440,  0, 440, 330, 220  
-        ];
-    }
-
-    /**
-     * Returns (and lazily creates) the shared AudioContext.
-     * @returns {AudioContext}
-     */
-    getCtx() {
-        if (!this.audioCtx) this.audioCtx = new AudioContext();
-        return this.audioCtx;
-    }
-
-    /**
-     * Creates and connects an oscillator/gain node pair to the audio context.
-     * @param {AudioContext} ctx
-     * @param {string} type - Oscillator waveform type.
-     * @param {number} freq - Frequency in Hz.
-     * @returns {{ osc: OscillatorNode, gain: GainNode }}
-     */
-    buildOscillator(ctx, type, freq) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.type = type;
-        osc.frequency.value = freq;
-        return { osc, gain };
-    }
-
-    /**
-     * Plays a synthesized tone with the given frequency and duration.
-     * @param {number} freq - Frequency in Hz.
-     * @param {number} duration - Duration in seconds.
-     * @param {string} [type='sine'] - Oscillator waveform type.
-     */
-    playTone(freq, duration, type = 'sine') {
-        if (this.muted) return;
-        const ctx = this.getCtx();
-        const { osc, gain } = this.buildOscillator(ctx, type, freq);
-        gain.gain.setValueAtTime(0.12, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + duration);
-    }
-
-    /** Plays jump sound effect. */
-    jump() { this.playTone(523, 0.15); }
-
-    /** Plays coin collection sound effect. */
-    collectCoin() { this.playTone(880, 0.1); }
-
-    /** Plays bottle pickup sound effect. */
-    collectBottle() { this.playTone(440, 0.12); }
-
-    /** Plays bottle throw sound effect. */
-    throwBottle() { this.playTone(330, 0.2, 'sawtooth'); }
-
-    /** Plays bottle splash sound effect. */
-    splash() { this.playTone(220, 0.3, 'triangle'); }
-
-    /** Plays enemy death sound effect. */
-    enemyDead() { this.playTone(200, 0.25, 'sawtooth'); }
-
-    /** Plays player hurt sound effect. */
-    hurt() { this.playTone(150, 0.4, 'sawtooth'); }
-
-    /** Plays game over sound effect. */
-    gameOver() { this.playTone(110, 1.0, 'sawtooth'); }
-
-    /** Plays victory sound effect. */
-    win() {
-        this.playTone(523, 0.2);
-        setTimeout(() => this.playTone(659, 0.2), 200);
-        setTimeout(() => this.playTone(784, 0.4), 400);
-    }
-
-    /**
-     * Starts the looping background music.
-     */
-    startBgMusic() {
-        if (this.bgInterval) return;
-        this.bgInterval = setInterval(() => {
-            const note = this.bgNotes[this.bgNote % this.bgNotes.length];
-            if (note > 0) this.playTone(note, 0.15, 'triangle');
-            this.bgNote++;
-        }, 200);
-        storeInterval(this.bgInterval);
-    }
-
-    /**
-     * Stops the background music.
-     */
-    stopBgMusic() {
-        if (this.bgInterval) {
-            clearInterval(this.bgInterval);
-            this.bgInterval = null;
-        }
-    }
-
-    /**
-     * Toggles mute state and persists it in localStorage.
-     */
-    toggleMute() {
-        this.muted = !this.muted;
-        localStorage.setItem('muted', this.muted);
-        if (this.muted) this.stopBgMusic();
-        else this.startBgMusic();
-        updateMuteButton();
-    }
-}
-
-const soundManager = new SoundManager();
-
 // Game lifecycle
 
 /**
  * Starts the game: hides the start screen and initializes the world.
  * @param {number} levelNum - The level to start (default 1).
  */
+/**
+ * Returns the correct level object for the given level number.
+ * @param {number} num
+ * @returns {Level}
+ */
+function createLevel(num) {
+    if (num === 3) return initLevel3();
+    if (num === 2) return initLevel2();
+    return initLevel1();
+}
+
+/**
+ * Updates the Next Level button visibility based on the current level.
+ */
+function updateNextLevelBtn() {
+    const btn = document.getElementById('next-level-btn');
+    if (btn) btn.style.display = currentLevelNum >= 3 ? 'none' : '';
+}
+
 function startGame(levelNum = 1) {
     currentLevelNum = levelNum;
     document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('pause-btn').style.display = '';
     soundManager.getCtx();
-    let levelObj = currentLevelNum === 1 ? initLevel1() : initLevel2();
-    world = new World(canvas, keyboard, levelObj);
-    soundManager.startBgMusic();
+    updateNextLevelBtn();
+    world = new World(canvas, keyboard, createLevel(currentLevelNum));
+    soundManager.startLevelMusic();
 }
 
 /**
@@ -223,19 +87,18 @@ function restartGame() {
     if (world) cancelAnimationFrame(world.animFrame);
     document.getElementById('game-over-screen').classList.add('hidden');
     document.getElementById('win-screen').classList.add('hidden');
+    document.getElementById('pause-btn').style.display = '';
     soundManager.stopBgMusic();
-    soundManager.bgInterval = null;
-    let levelObj = currentLevelNum === 1 ? initLevel1() : initLevel2();
-    world = new World(canvas, keyboard, levelObj);
-    soundManager.startBgMusic();
+    world = new World(canvas, keyboard, createLevel(currentLevelNum));
+    soundManager.startLevelMusic();
 }
 
 /**
- * Starts the next level.
+ * Starts the next level (max level 3).
  */
 function nextLevel() {
-    startGame(currentLevelNum === 1 ? 2 : 1);
     document.getElementById('win-screen').classList.add('hidden');
+    startGame(Math.min(currentLevelNum + 1, 3));
 }
 
 /**
@@ -244,10 +107,13 @@ function nextLevel() {
 function goHome() {
     clearAllIntervals();
     if (world) cancelAnimationFrame(world.animFrame);
+    world = null;
     document.getElementById('game-over-screen').classList.add('hidden');
     document.getElementById('win-screen').classList.add('hidden');
     document.getElementById('start-screen').style.display = 'flex';
-    soundManager.stopBgMusic();
+    document.getElementById('pause-btn').style.display = 'none';
+    soundManager.startMenuMusic();
+    updateHighscoreDisplay();
 }
 
 // UI helpers
@@ -256,6 +122,7 @@ function goHome() {
  * Opens the controls dialog overlay.
  */
 function openControls() {
+    soundManager.startMenuMusic();
     document.getElementById('controls-dialog').classList.remove('hidden');
 }
 
@@ -277,9 +144,23 @@ function closeOnBackdrop(e, id) {
 }
 
 /**
+ * Toggles the pause state of the running game.
+ */
+function togglePause() {
+    if (!world || world.gameEnded) return;
+    world.paused = !world.paused;
+    const btn = document.getElementById('pause-btn');
+    if (btn) btn.textContent = world.paused ? '▶' : '⏸';
+    if (world.paused) soundManager.stopBgMusic();
+    else soundManager.resumeMusic();
+}
+
+/**
  * Toggles the global mute state via the SoundManager.
+ * Also starts menu music on first interaction if still on the start screen.
  */
 function toggleMute() {
+    if (!world) soundManager.startMenuMusic();
     soundManager.toggleMute();
 }
 
@@ -303,11 +184,29 @@ function toggleFullscreen() {
     }
 }
 
-// Apply saved mute state on load
 /**
  * Initialization function called on page load.
+ * Sets up UI state and binds mobile touch controls.
+ */
+/**
+ * Updates the highscore display on the start screen from localStorage.
+ */
+function updateHighscoreDisplay() {
+    const best = localStorage.getItem('highscore');
+    const el = document.getElementById('highscore-display');
+    if (el) el.textContent = best ? `Best: ${best} pts` : '';
+}
+
+/**
+ * Initialization function called on page load.
+ * Sets up UI state and binds mobile touch controls.
  */
 function init() {
     updateMuteButton();
+    updateHighscoreDisplay();
     applyTranslations();
+    bindMobileButton('btn-left', 'LEFT');
+    bindMobileButton('btn-right', 'RIGHT');
+    bindMobileButton('btn-jump', 'UP');
+    bindMobileButton('btn-throw', 'D');
 }

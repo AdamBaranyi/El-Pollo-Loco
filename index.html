@@ -30,7 +30,9 @@
                     <div class="start-buttons">
                         <button id="start-btn" onclick="startGame(1)" data-i18n="playLevel1">Play (Level 1)</button>
                         <button id="start-btn-2" onclick="startGame(2)" style="margin-top: 10px;" data-i18n="playLevel2">Play (Level 2)</button>
+                        <button id="start-btn-3" onclick="startGame(3)" style="margin-top: 10px;" data-i18n="playLevel3">Play (Level 3)</button>
                         <button id="controls-btn" onclick="openControls()" style="margin-top: 10px;" data-i18n="controlsBtn">Controls</button>
+                    <div id="highscore-display" style="margin-top: 8px; color: #f5c842; font-size: 1.1rem;"></div>
                         <a href="htmls/impressum.html" class="imprint-link" style="margin-top: 10px;" data-i18n="imprint">Imprint</a>
                     </div>
                 </div>
@@ -68,7 +70,7 @@
             <div id="win-screen" class="hidden">
                 <div class="end-content win-content">
                     <h2 data-i18n="winTitle">You won!</h2>
-                    <button onclick="nextLevel()" data-i18n="nextLevel">Next Level</button>
+                    <button id="next-level-btn" onclick="nextLevel()" data-i18n="nextLevel">Next Level</button>
                     <button onclick="restartGame()" data-i18n="playAgain">Play Again</button>
                     <button onclick="goHome()" data-i18n="home">Home</button>
                 </div>
@@ -79,6 +81,7 @@
                 <button onclick="setLanguage('en')">🇬🇧 EN</button>
                 <button onclick="setLanguage('de')">🇩🇪 DE</button>
             </div>
+            <button id="pause-btn" onclick="togglePause()" title="Pause">⏸</button>
             <button id="mute-btn" onclick="toggleMute()" title="Ton an/aus">🔊</button>
             <button id="fullscreen-btn" onclick="toggleFullscreen()" title="Vollbild">⛶</button>
 
@@ -97,7 +100,9 @@
     </div>
 
     <!-- Scripts – base classes first, then world, then level, then main script -->
+    <script src="audio/sound-manager.js"></script>
     <script src="scripts/translations.js"></script>
+    <script src="classes/keyboard.class.js"></script>
     <script src="classes/drawable-object.class.js"></script>
     <script src="classes/movable-object.class.js"></script>
     <script src="classes/background-object.class.js"></script>
@@ -111,9 +116,11 @@
     <script src="classes/throwable-object.class.js"></script>
     <script src="classes/endboss.class.js"></script>
     <script src="classes/character.class.js"></script>
+    <script src="classes/world-renderer.class.js"></script>
     <script src="classes/world.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="levels/level2.js"></script>
+    <script src="levels/level3.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
