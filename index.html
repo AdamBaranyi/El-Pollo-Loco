@@ -32,6 +32,7 @@
                         <button id="start-btn-2" onclick="startGame(2)" style="margin-top: 10px;" data-i18n="playLevel2">Play (Level 2)</button>
                         <button id="start-btn-3" onclick="startGame(3)" style="margin-top: 10px;" data-i18n="playLevel3">Play (Level 3)</button>
                         <button id="controls-btn" onclick="openControls()" style="margin-top: 10px;" data-i18n="controlsBtn">Controls</button>
+                        <button id="how-to-play-btn" onclick="openHowToPlay()" style="margin-top: 10px;" data-i18n="howToPlayBtn">How to Play</button>
                     <div id="highscore-display" style="margin-top: 8px; color: #f5c842; font-size: 1.1rem;"></div>
                         <a href="htmls/impressum.html" class="imprint-link" style="margin-top: 10px;" data-i18n="imprint">Imprint</a>
                     </div>
@@ -52,6 +53,32 @@
                         </div>
                         <div class="control-row">
                             <span>D</span><span data-i18n="throw">Throw Bottle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Play dialog -->
+            <div id="how-to-play-dialog" class="dialog hidden" onclick="closeOnBackdrop(event, 'how-to-play-dialog')">
+                <div class="dialog-inner">
+                    <button class="close-btn" onclick="closeDialog('how-to-play-dialog')">✕</button>
+                    <h2 data-i18n="howToPlayTitle">How to Play</h2>
+                    <div class="htp-list">
+                        <div class="htp-row">
+                            <span class="htp-icon">🎯</span>
+                            <div><strong data-i18n="howToPlayGoal">Goal</strong><p data-i18n="howToPlayGoalText">Defeat El Pollo Loco!</p></div>
+                        </div>
+                        <div class="htp-row">
+                            <span class="htp-icon">💰</span>
+                            <div><strong data-i18n="howToPlayCollect">Collect</strong><p data-i18n="howToPlayCollectText">Coins &amp; bottles.</p></div>
+                        </div>
+                        <div class="htp-row">
+                            <span class="htp-icon">⚔️</span>
+                            <div><strong data-i18n="howToPlayFight">Fight</strong><p data-i18n="howToPlayFightText">Stomp or throw bottles.</p></div>
+                        </div>
+                        <div class="htp-row">
+                            <span class="htp-icon">💡</span>
+                            <div><strong data-i18n="howToPlayTip">Tip</strong><p data-i18n="howToPlayTipText">Use bottles wisely!</p></div>
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,17 @@ const translations = {
         "impDisclaimerText": "This project was created as part of an apprenticeship and is solely for educational purposes. The graphics and assets used were provided by Developer Akademie.",
         "impCopyrightTitle": "Copyright",
         "impCopyrightText": "The content and works created by the site operator on these pages are subject to Swiss copyright law. Duplication, processing, distribution, or any form of commercialization of such material beyond the scope of the copyright law shall require the prior written consent of its respective author or creator.",
-        "impBack": "← Back to Game"
+        "impBack": "← Back to Game",
+        "howToPlayBtn": "How to Play",
+        "howToPlayTitle": "How to Play",
+        "howToPlayGoal": "Goal",
+        "howToPlayGoalText": "Defeat El Pollo Loco, the giant chicken endboss, to win the game!",
+        "howToPlayCollect": "Collect",
+        "howToPlayCollectText": "Pick up coins for bonus health every 10 coins. Collect salsa bottles to use as weapons.",
+        "howToPlayFight": "Fight",
+        "howToPlayFightText": "Stomp on small chickens by jumping on them. Throw bottles (D) at the endboss to deal damage.",
+        "howToPlayTip": "Tip",
+        "howToPlayTipText": "The endboss gets faster as his health drops — use bottles wisely!"
     },
     de: {
         "rotate": "Drehe dein Gerät um zu spielen!",
@@ -51,7 +61,17 @@ const translations = {
         "impDisclaimerText": "Dieses Projekt wurde im Rahmen einer Ausbildung erstellt und dient ausschließlich zu Lernzwecken. Die verwendeten Grafiken und Assets wurden vom Developer Akademie bereitgestellt.",
         "impCopyrightTitle": "Urheberrecht",
         "impCopyrightText": "Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem Schweizer Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.",
-        "impBack": "← Zurück zum Spiel"
+        "impBack": "← Zurück zum Spiel",
+        "howToPlayBtn": "Spielanleitung",
+        "howToPlayTitle": "Spielanleitung",
+        "howToPlayGoal": "Ziel",
+        "howToPlayGoalText": "Besiege El Pollo Loco, das riesige Hühner-Endboss, um das Spiel zu gewinnen!",
+        "howToPlayCollect": "Sammeln",
+        "howToPlayCollectText": "Sammle Münzen für Bonus-Leben alle 10 Münzen. Sammle Salsa-Flaschen als Waffen.",
+        "howToPlayFight": "Kämpfen",
+        "howToPlayFightText": "Springe auf kleine Hühner um sie zu besiegen. Wirf Flaschen (D) auf den Endboss um Schaden zu machen.",
+        "howToPlayTip": "Tipp",
+        "howToPlayTipText": "Der Endboss wird schneller je weniger Leben er hat — setze Flaschen klug ein!"
     }
 };
 

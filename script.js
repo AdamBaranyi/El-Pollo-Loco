@@ -72,7 +72,7 @@ function updateNextLevelBtn() {
 function startGame(levelNum = 1) {
     currentLevelNum = levelNum;
     document.getElementById('start-screen').style.display = 'none';
-    document.getElementById('pause-btn').style.display = '';
+    document.getElementById('pause-btn').style.display = 'block';
     soundManager.getCtx();
     updateNextLevelBtn();
     world = new World(canvas, keyboard, createLevel(currentLevelNum));
@@ -87,7 +87,7 @@ function restartGame() {
     if (world) cancelAnimationFrame(world.animFrame);
     document.getElementById('game-over-screen').classList.add('hidden');
     document.getElementById('win-screen').classList.add('hidden');
-    document.getElementById('pause-btn').style.display = '';
+    document.getElementById('pause-btn').style.display = 'block';
     soundManager.stopBgMusic();
     world = new World(canvas, keyboard, createLevel(currentLevelNum));
     soundManager.startLevelMusic();
@@ -124,6 +124,14 @@ function goHome() {
 function openControls() {
     soundManager.startMenuMusic();
     document.getElementById('controls-dialog').classList.remove('hidden');
+}
+
+/**
+ * Opens the how-to-play dialog overlay.
+ */
+function openHowToPlay() {
+    soundManager.startMenuMusic();
+    document.getElementById('how-to-play-dialog').classList.remove('hidden');
 }
 
 /**
