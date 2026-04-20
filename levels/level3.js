@@ -83,15 +83,13 @@ function createCoinsL3() {
  */
 function createBottlesL3() {
     return [
-        new SalsaBottle(300),  new SalsaBottle(600),
-        new SalsaBottle(900),  new SalsaBottle(1200),
-        new SalsaBottle(1600), new SalsaBottle(1900),
-        new SalsaBottle(2300), new SalsaBottle(2700),
-        new SalsaBottle(3100), new SalsaBottle(3500),
-        new SalsaBottle(3900), new SalsaBottle(4300),
-        new SalsaBottle(4700), new SalsaBottle(5000),
-        new SalsaBottle(5100), new SalsaBottle(5200),
-        new SalsaBottle(5300), new SalsaBottle(5400)
+        new SalsaBottle(300),  new SalsaBottle(700),
+        new SalsaBottle(1100), new SalsaBottle(1600),
+        new SalsaBottle(2000), new SalsaBottle(2500),
+        new SalsaBottle(3000), new SalsaBottle(3500),
+        new SalsaBottle(4000), new SalsaBottle(4500),
+        new SalsaBottle(4900), new SalsaBottle(5100),
+        new SalsaBottle(5300)
     ];
 }
 

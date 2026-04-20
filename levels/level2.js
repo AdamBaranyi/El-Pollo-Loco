@@ -100,22 +100,17 @@ function createCoinsL2() {
 function createBottlesL2() {
     return [
         new SalsaBottle(300),
-        new SalsaBottle(500),
-        new SalsaBottle(700),
-        new SalsaBottle(1000),
+        new SalsaBottle(600),
+        new SalsaBottle(900),
         new SalsaBottle(1300),
-        new SalsaBottle(1600),
-        new SalsaBottle(1900),
-        new SalsaBottle(2200),
-        new SalsaBottle(2600),
+        new SalsaBottle(1700),
+        new SalsaBottle(2100),
+        new SalsaBottle(2500),
         new SalsaBottle(2900),
-        new SalsaBottle(3200),
-        new SalsaBottle(3500),
+        new SalsaBottle(3300),
+        new SalsaBottle(3700),
         new SalsaBottle(3800),
-        new SalsaBottle(3950),
-        new SalsaBottle(4050),
-        new SalsaBottle(4100),
-        new SalsaBottle(4150)
+        new SalsaBottle(3950)
     ];
 }
 

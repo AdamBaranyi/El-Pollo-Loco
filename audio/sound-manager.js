@@ -38,7 +38,7 @@ class SoundManager {
 
     constructor() {
         this.audioCtx = null;
-        this.muted = localStorage.getItem('muted') === 'true';
+        this.muted = localStorage.getItem('muted') !== 'false';
         this.bgInterval = null;
         this.bgNote = 0;
         this.activeNotes = null;

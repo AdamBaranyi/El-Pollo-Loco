@@ -150,8 +150,8 @@ class World extends WorldRenderer {
         this.score += 10;
         this.statusBarCoin.setPercentage(Math.min(100, this.coinsCollected * 10));
         soundManager.collectCoin();
-        if (this.coinsCollected % 10 === 0 && this.character.energy < 100) {
-            this.character.energy = Math.min(100, this.character.energy + 20);
+        if (this.coinsCollected % 5 === 0 && this.character.energy < 100) {
+            this.character.energy = Math.min(100, this.character.energy + 10);
             this.statusBarHealth.setPercentage(this.character.energy);
         }
     }

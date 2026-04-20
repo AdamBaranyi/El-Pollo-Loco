@@ -13,6 +13,7 @@ class Endboss extends MovableObject {
     firstContact = false;
     isAlerting = false;
     isCharging = false;
+    isRetreating = false;
     phase = 1;
     speed = 0.4;
     otherDirection = false;
@@ -125,11 +126,15 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * Triggers a short charge attack for 700ms.
+     * Triggers a charge attack for 700ms, then retreats for 1000ms.
      */
     triggerCharge() {
         this.isCharging = true;
-        setTimeout(() => { this.isCharging = false; }, 700);
+        setTimeout(() => {
+            this.isCharging = false;
+            this.isRetreating = true;
+            setTimeout(() => { this.isRetreating = false; }, 1000);
+        }, 700);
     }
 
     /**
@@ -158,6 +163,7 @@ class Endboss extends MovableObject {
         if (!this.firstContact || this.isDead() || this.isAlerting) return;
         if (this.isHurt()) { this.knockback(); return; }
         this.updatePhase();
+        if (this.isRetreating) { this.retreatFromCharacter(characterX); return; }
         this.speed = this.isCharging ? this.getBaseSpeed() * this.chargeMultiplier : this.getBaseSpeed();
         this.moveInDirection(characterX);
     }
@@ -167,6 +173,21 @@ class Endboss extends MovableObject {
      */
     knockback() {
         this.x += this.otherDirection ? -3 : 3;
+    }
+
+    /**
+     * Moves the endboss away from the character after a charge.
+     * @param {number} characterX
+     */
+    retreatFromCharacter(characterX) {
+        const retreatSpeed = this.getBaseSpeed() * 0.7;
+        if (characterX < this.x) {
+            this.x += retreatSpeed;
+            this.otherDirection = true;
+        } else {
+            this.x -= retreatSpeed;
+            this.otherDirection = false;
+        }
     }
 
     /**
