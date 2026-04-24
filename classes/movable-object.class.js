@@ -76,7 +76,7 @@ class MovableObject extends DrawableObject {
      */
     isHurt() {
         const timePassed = new Date().getTime() - this.lastHit;
-        return timePassed < 1000;
+        return timePassed < 500;
     }
 
     /**

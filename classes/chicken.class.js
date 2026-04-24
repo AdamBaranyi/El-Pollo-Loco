@@ -20,13 +20,17 @@ class Chicken extends MovableObject {
     /**
      * Creates a chicken enemy at the given horizontal position.
      * @param {number} x - Starting x position.
+     * @param {Object} [config={}] - Optional difficulty config.
+     * @param {number} [config.speedMultiplier=1] - Speed multiplier.
+     * @param {number} [config.hitStrength=5] - Damage dealt to character.
      */
-    constructor(x) {
+    constructor(x, config = {}) {
         super();
         this.loadImages(this.IMAGES_WALKING);
         this.loadImage(this.IMAGES_WALKING[0]);
         this.x = x;
-        this.speed = 0.3 + Math.random() * 0.5;
+        this.hitStrength = config.hitStrength || 5;
+        this.speed = (0.3 + Math.random() * 0.5) * (config.speedMultiplier || 1);
         this.animate();
     }
 
@@ -35,9 +39,13 @@ class Chicken extends MovableObject {
      */
     animate() {
         const id1 = setInterval(() => {
+            if (world && world.paused) return;
             if (!this.isDead()) this.playAnimation(this.IMAGES_WALKING);
         }, 150);
-        const id2 = setInterval(() => { this.x -= this.speed; }, 1000 / 60);
+        const id2 = setInterval(() => {
+            if (world && world.paused) return;
+            this.x -= this.speed;
+        }, 1000 / 60);
         storeInterval(id1);
         storeInterval(id2);
     }

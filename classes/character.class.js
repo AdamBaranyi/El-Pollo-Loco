@@ -144,6 +144,7 @@ class Character extends MovableObject {
      * Selects the correct animation frame based on current character state.
      */
     handleAnimation() {
+        if (this.world && this.world.paused) return;
         if (this.isDead()) return this.playDeadAnimation();
         if (this.isHurt()) return this.playAnimation(this.IMAGES_HURT);
         if (this.isAboveGround()) return this.playAnimation(this.IMAGES_JUMPING);

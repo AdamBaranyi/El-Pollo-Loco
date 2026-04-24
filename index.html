@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/6_salsa_bottle/salsa_bottle.png">
@@ -80,6 +80,14 @@
                             <span class="htp-icon">💡</span>
                             <div><strong data-i18n="howToPlayTip">Tip</strong><p data-i18n="howToPlayTipText">Use bottles wisely!</p></div>
                         </div>
+                        <div class="htp-row">
+                            <span class="htp-icon">⏸</span>
+                            <div><strong data-i18n="howToPlayPause">Pause</strong><p data-i18n="howToPlayPauseText">Escape or ⏸ button.</p></div>
+                        </div>
+                        <div class="htp-row">
+                            <span class="htp-icon">⛶</span>
+                            <div><strong data-i18n="howToPlayFullscreen">Fullscreen</strong><p data-i18n="howToPlayFullscreenText">Alt + Enter or ⛶ button.</p></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,6 +107,16 @@
                     <h2 data-i18n="winTitle">You won!</h2>
                     <button id="next-level-btn" onclick="nextLevel()" data-i18n="nextLevel">Next Level</button>
                     <button onclick="restartGame()" data-i18n="playAgain">Play Again</button>
+                    <button onclick="goHome()" data-i18n="home">Home</button>
+                </div>
+            </div>
+
+            <!-- Pause overlay -->
+            <div id="pause-overlay" class="hidden">
+                <div class="pause-content">
+                    <h2 data-i18n="pauseTitle">Paused</h2>
+                    <button onclick="togglePause()" data-i18n="pauseResume">Resume</button>
+                    <button onclick="restartGame()" data-i18n="restart">Restart</button>
                     <button onclick="goHome()" data-i18n="home">Home</button>
                 </div>
             </div>

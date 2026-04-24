@@ -32,6 +32,8 @@ class Keyboard {
         if (e.keyCode === 38 || e.keyCode === 32) this.UP = true;
         if (e.keyCode === 68) this.D = true;
         if (e.keyCode === 32) e.preventDefault();
+        if (e.altKey && e.keyCode === 13) { e.preventDefault(); toggleFullscreen(); }
+        if (e.keyCode === 27 || e.keyCode === 80) togglePause();
     }
 
     /**

@@ -66,7 +66,9 @@ function togglePause() {
     if (!world || world.gameEnded) return;
     world.paused = !world.paused;
     const btn = document.getElementById('pause-btn');
+    const overlay = document.getElementById('pause-overlay');
     if (btn) btn.textContent = world.paused ? '▶' : '⏸';
+    if (overlay) overlay.classList.toggle('hidden', !world.paused);
     if (world.paused) soundManager.stopBgMusic();
     else soundManager.resumeMusic();
 }
@@ -81,13 +83,22 @@ function toggleMute() {
 }
 
 /**
- * Toggles fullscreen mode for the canvas container.
+ * Toggles fullscreen mode for the canvas container (with iOS Safari support).
  */
 function toggleFullscreen() {
     const container = document.getElementById('canvas-container');
-    if (!document.fullscreenElement) {
-        container.requestFullscreen().catch(() => {});
+    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+    if (!isFullscreen) {
+        if (container.requestFullscreen) {
+            container.requestFullscreen().catch(() => {});
+        } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+        }
     } else {
-        document.exitFullscreen();
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
     }
 }

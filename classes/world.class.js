@@ -191,7 +191,7 @@ class World extends WorldRenderer {
      */
     checkThrowableGround() {
         this.throwableObjects.forEach(bottle => {
-            if (bottle.y + bottle.height > 370 && !bottle.splashing) {
+            if (bottle.y + bottle.height > 385 && !bottle.splashing) {
                 bottle.splash();
                 soundManager.splash();
             }

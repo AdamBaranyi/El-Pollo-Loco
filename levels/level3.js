@@ -4,7 +4,7 @@
  */
 function createBackgroundObjectsL3() {
     const objs = [];
-    for (let i = -1; i <= 8; i++) {
+    for (let i = -1; i <= 9; i++) {
         const v = Math.abs(i % 2) === 0 ? '1' : '2';
         objs.push(
             new BackgroundObject('img/5_background/layers/air.png', 719 * i),
@@ -21,6 +21,8 @@ function createBackgroundObjectsL3() {
  * @returns {MovableObject[]}
  */
 function createEnemiesL3() {
+    const cfg = { speedMultiplier: 1.5, hitStrength: 15 };
+    const cfgS = { speedMultiplier: 1.5, hitStrength: 12 };
     const endboss = new Endboss({
         hitStrength: 30,
         chargeInterval: 1500,
@@ -29,16 +31,16 @@ function createEnemiesL3() {
     });
     endboss.x = 5500;
     return [
-        new Chicken(700),    new SmallChicken(900),
-        new Chicken(1100),   new SmallChicken(1300),
-        new Chicken(1600),   new SmallChicken(1800),
-        new Chicken(2100),   new SmallChicken(2300),
-        new Chicken(2600),   new SmallChicken(2800),
-        new Chicken(3100),   new SmallChicken(3300),
-        new Chicken(3600),   new SmallChicken(3800),
-        new Chicken(4100),   new SmallChicken(4300),
-        new Chicken(4600),   new SmallChicken(4800),
-        new Chicken(5000),
+        new Chicken(700, cfg),    new SmallChicken(900, cfgS),
+        new Chicken(1100, cfg),   new SmallChicken(1300, cfgS),
+        new Chicken(1600, cfg),   new SmallChicken(1800, cfgS),
+        new Chicken(2100, cfg),   new SmallChicken(2300, cfgS),
+        new Chicken(2600, cfg),   new SmallChicken(2800, cfgS),
+        new Chicken(3100, cfg),   new SmallChicken(3300, cfgS),
+        new Chicken(3600, cfg),   new SmallChicken(3800, cfgS),
+        new Chicken(4100, cfg),   new SmallChicken(4300, cfgS),
+        new Chicken(4600, cfg),   new SmallChicken(4800, cfgS),
+        new Chicken(5000, cfg),
         endboss
     ];
 }
@@ -105,6 +107,6 @@ function initLevel3() {
         createCoinsL3(),
         createBottlesL3()
     );
-    level.level_end_x = 5500;
+    level.level_end_x = 6500;
     return level;
 }

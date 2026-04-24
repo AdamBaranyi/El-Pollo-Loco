@@ -5,7 +5,7 @@
  */
 function createBackgroundObjects() {
     const objs = [];
-    for (let i = -1; i <= 3; i++) {
+    for (let i = -1; i <= 4; i++) {
         const v = Math.abs(i % 2) === 0 ? '1' : '2';
         objs.push(
             new BackgroundObject('img/5_background/layers/air.png', 719 * i),
@@ -92,11 +92,13 @@ function createBottlesL1() {
  * @returns {Level}
  */
 function initLevel1() {
-    return new Level(
+    const level = new Level(
         createEnemiesL1(),
         createCloudsL1(),
         createBackgroundObjects(),
         createCoinsL1(),
         createBottlesL1()
     );
+    level.level_end_x = 3000;
+    return level;
 }

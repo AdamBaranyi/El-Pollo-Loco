@@ -25,6 +25,8 @@ const translations = {
         "impCopyrightTitle": "Copyright",
         "impCopyrightText": "The content and works created by the site operator on these pages are subject to Swiss copyright law. Duplication, processing, distribution, or any form of commercialization of such material beyond the scope of the copyright law shall require the prior written consent of its respective author or creator.",
         "impBack": "← Back to Game",
+        "pauseTitle": "Paused",
+        "pauseResume": "Resume",
         "howToPlayBtn": "How to Play",
         "howToPlayTitle": "How to Play",
         "howToPlayGoal": "Goal",
@@ -34,7 +36,11 @@ const translations = {
         "howToPlayFight": "Fight",
         "howToPlayFightText": "Stomp on small chickens by jumping on them. Throw bottles (D) at the endboss to deal damage.",
         "howToPlayTip": "Tip",
-        "howToPlayTipText": "The endboss gets faster as his health drops — use bottles wisely!"
+        "howToPlayTipText": "The endboss needs 5 bottle hits to defeat. Save enough bottles before reaching him — he gets faster as his health drops!",
+        "howToPlayFullscreen": "Fullscreen",
+        "howToPlayFullscreenText": "Alt + Enter (Windows) or Option + Enter (Mac) or use the ⛶ button.",
+        "howToPlayPause": "Pause",
+        "howToPlayPauseText": "Press P or Escape or use the ⏸ button to pause. Resume or go back to the main menu from the pause screen."
     },
     de: {
         "rotate": "Drehe dein Gerät um zu spielen!",
@@ -62,6 +68,8 @@ const translations = {
         "impCopyrightTitle": "Urheberrecht",
         "impCopyrightText": "Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem Schweizer Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.",
         "impBack": "← Zurück zum Spiel",
+        "pauseTitle": "Pause",
+        "pauseResume": "Weiter",
         "howToPlayBtn": "Spielanleitung",
         "howToPlayTitle": "Spielanleitung",
         "howToPlayGoal": "Ziel",
@@ -71,7 +79,11 @@ const translations = {
         "howToPlayFight": "Kämpfen",
         "howToPlayFightText": "Springe auf kleine Hühner um sie zu besiegen. Wirf Flaschen (D) auf den Endboss um Schaden zu machen.",
         "howToPlayTip": "Tipp",
-        "howToPlayTipText": "Der Endboss wird schneller je weniger Leben er hat — setze Flaschen klug ein!"
+        "howToPlayTipText": "Der Endboss braucht 5 Flaschentreffer um besiegt zu werden. Spare genug Flaschen bevor du ihn erreichst — er wird schneller je weniger Leben er hat!",
+        "howToPlayFullscreen": "Vollbild",
+        "howToPlayFullscreenText": "Alt + Enter (Windows) oder Option + Enter (Mac) oder ⛶ Button.",
+        "howToPlayPause": "Pause",
+        "howToPlayPauseText": "P oder Escape oder ⏸ Button drücken um zu pausieren. Im Pause-Menü kannst du weiterspielen oder zum Hauptmenü zurück."
     }
 };
 

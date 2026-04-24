@@ -40,9 +40,23 @@ function clearAllIntervals() {
 function bindMobileButton(id, key) {
     const btn = document.getElementById(id);
     if (!btn) return;
+    const release = () => { keyboard[key] = false; };
     btn.addEventListener('touchstart', e => { e.preventDefault(); keyboard[key] = true; }, { passive: false });
-    btn.addEventListener('touchend', () => { keyboard[key] = false; });
+    btn.addEventListener('touchend', release, { passive: false });
+    btn.addEventListener('touchcancel', release, { passive: false });
     btn.addEventListener('contextmenu', e => e.preventDefault());
+}
+
+/** Shows mobile controls during gameplay. */
+function showMobileControls() {
+    const el = document.getElementById('mobile-controls');
+    if (el) el.style.display = 'flex';
+}
+
+/** Hides mobile controls on menu/non-game screens. */
+function hideMobileControls() {
+    const el = document.getElementById('mobile-controls');
+    if (el) el.style.display = 'none';
 }
 
 /**
@@ -53,6 +67,7 @@ function init() {
     updateMuteButton();
     updateHighscoreDisplay();
     applyTranslations();
+    hideMobileControls();
     bindMobileButton('btn-left', 'LEFT');
     bindMobileButton('btn-right', 'RIGHT');
     bindMobileButton('btn-jump', 'UP');

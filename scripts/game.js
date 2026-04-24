@@ -21,9 +21,12 @@ function createLevel(num) {
 function startGame(levelNum = 1) {
     currentLevelNum = levelNum;
     document.getElementById('start-screen').style.display = 'none';
-    document.getElementById('pause-btn').style.display = 'block';
-    soundManager.getCtx();
+    const pauseBtn = document.getElementById('pause-btn');
+    pauseBtn.style.display = 'block';
+    pauseBtn.textContent = '⏸';
+    soundManager.playGameStart();
     updateNextLevelBtn();
+    showMobileControls();
     world = new World(canvas, keyboard, createLevel(currentLevelNum));
     world.score = carryScore;
     carryScore = 0;
@@ -38,7 +41,10 @@ function restartGame() {
     if (world) cancelAnimationFrame(world.animFrame);
     document.getElementById('game-over-screen').classList.add('hidden');
     document.getElementById('win-screen').classList.add('hidden');
-    document.getElementById('pause-btn').style.display = 'block';
+    document.getElementById('pause-overlay').classList.add('hidden');
+    const pauseBtn = document.getElementById('pause-btn');
+    pauseBtn.style.display = 'block';
+    pauseBtn.textContent = '⏸';
     soundManager.stopBgMusic();
     world = new World(canvas, keyboard, createLevel(currentLevelNum));
     soundManager.startLevelMusic();
@@ -49,6 +55,7 @@ function restartGame() {
  */
 function nextLevel() {
     carryScore = world ? world.score : 0;
+    soundManager.nextLevelSound();
     document.getElementById('win-screen').classList.add('hidden');
     startGame(Math.min(currentLevelNum + 1, 3));
 }
@@ -62,8 +69,11 @@ function goHome() {
     world = null;
     document.getElementById('game-over-screen').classList.add('hidden');
     document.getElementById('win-screen').classList.add('hidden');
+    document.getElementById('pause-overlay').classList.add('hidden');
     document.getElementById('start-screen').style.display = 'flex';
     document.getElementById('pause-btn').style.display = 'none';
+    hideMobileControls();
+    soundManager.backToMenuSound();
     soundManager.startMenuMusic();
     updateHighscoreDisplay();
 }

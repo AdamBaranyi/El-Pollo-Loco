@@ -1,184 +1,125 @@
 /**
- * Manages all in-game audio using the Web Audio API.
- * Supports three background music tracks: menu, level, and endboss.
+ * Manages all in-game audio.
+ * Background music uses real audio files (menu, level).
+ * Endboss music and sound effects use Web Audio API synthesis.
  */
 class SoundManager {
-    MENU_NOTES = [
-        392, 0, 440, 0, 494, 0, 523, 0,
-        494, 0, 440, 0, 392, 0,   0, 0,
-        392, 0, 349, 0, 392, 0, 440, 0,
-        440, 0,   0, 0,   0, 0,   0, 0,
-        523, 0, 494, 0, 440, 0, 494, 0,
-        523, 0, 587, 0, 523, 0,   0, 0,
-        440, 0, 494, 0, 440, 0, 392, 0,
-        392, 0,   0, 0,   0, 0,   0, 0
-    ];
-
-    LEVEL_NOTES = [
-        330, 0, 392, 0, 440, 0, 523, 0,
-        494, 0, 440, 0, 392, 0, 330, 0,
-        294, 0, 330, 0, 392, 0, 440, 0,
-        523, 0, 494, 0, 523, 0,   0, 0,
-        392, 0, 440, 0, 494, 0, 440, 0,
-        392, 0, 330, 0, 294, 0, 330, 0,
-        440, 0, 494, 0, 523, 0, 587, 0,
-        523, 0, 494, 0, 440, 0,   0, 0
-    ];
-
-    ENDBOSS_NOTES = [
-        220, 0, 220, 0, 262, 0, 220, 0,
-        196, 0, 196, 0, 220, 0, 196, 0,
-        220, 0, 262, 0, 294, 0, 330, 0,
-        294, 0, 262, 0, 220, 0,   0, 0,
-        220, 0, 247, 0, 262, 0, 247, 0,
-        220, 0, 196, 0, 175, 0, 196, 0,
-        220, 0, 262, 0, 294, 0, 262, 0,
-        220, 0,   0, 0, 220, 0,   0, 0
-    ];
-
     constructor() {
-        this.audioCtx = null;
         this.muted = localStorage.getItem('muted') !== 'false';
-        this.bgInterval = null;
-        this.bgNote = 0;
-        this.activeNotes = null;
-        this.activeTempo = 200;
+        this.bgAudio = null;
+        this.activeTrack = null;
     }
 
-    /**
-     * Returns (and lazily creates) the shared AudioContext.
-     * @returns {AudioContext}
+/**
+     * Plays a looping real audio file as background music.
+     * @param {string} src - Path to the audio file.
+     * @param {number} [volume=0.4]
      */
-    getCtx() {
-        if (!this.audioCtx) this.audioCtx = new AudioContext();
-        return this.audioCtx;
+    startBgAudio(src, volume = 0.4) {
+        this.bgAudio = new Audio(src);
+        this.bgAudio.loop = true;
+        this.bgAudio.volume = volume;
+        this.bgAudio.play().catch(() => {});
     }
 
-    /**
-     * Creates and connects an oscillator/gain node pair to the audio context.
-     * @param {AudioContext} ctx
-     * @param {string} type - Oscillator waveform type.
-     * @param {number} freq - Frequency in Hz.
-     * @returns {{ osc: OscillatorNode, gain: GainNode }}
-     */
-    buildOscillator(ctx, type, freq) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.type = type;
-        osc.frequency.value = freq;
-        return { osc, gain };
-    }
-
-    /**
-     * Plays a synthesized tone with the given frequency and duration.
-     * @param {number} freq - Frequency in Hz.
-     * @param {number} duration - Duration in seconds.
-     * @param {string} [type='sine'] - Oscillator waveform type.
-     */
-    playTone(freq, duration, type = 'sine') {
-        if (this.muted) return;
-        const ctx = this.getCtx();
-        const { osc, gain } = this.buildOscillator(ctx, type, freq);
-        gain.gain.setValueAtTime(0.12, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + duration);
-    }
-
-    /** Starts the cheerful menu background music (280ms tempo). */
-    startMenuMusic() { this.switchTrack(this.MENU_NOTES, 280); }
-
-    /** Starts the energetic level background music (200ms tempo). */
-    startLevelMusic() { this.switchTrack(this.LEVEL_NOTES, 200); }
-
-    /** Starts the intense endboss background music (140ms tempo). */
-    startEndbossMusic() { this.switchTrack(this.ENDBOSS_NOTES, 140); }
-
-    /**
-     * Switches to a new background music track.
-     * @param {number[]} notes - Array of note frequencies (0 = pause).
-     * @param {number} tempo - Milliseconds per beat.
-     */
-    switchTrack(notes, tempo) {
+    /** Starts the menu background music. */
+    startMenuMusic() {
         this.stopBgMusic();
-        this.activeNotes = notes;
-        this.activeTempo = tempo;
+        this.activeTrack = 'menu';
         if (this.muted) return;
-        this.bgNote = 0;
-        this.bgInterval = setInterval(() => {
-            const note = notes[this.bgNote++ % notes.length];
-            if (note > 0) this.playTone(note, (tempo / 1000) * 0.75, 'triangle');
-        }, tempo);
-        storeInterval(this.bgInterval);
+        this.startBgAudio('audio/sounds/menu/menu_sound.mp3');
+    }
+
+    /** Starts the level background music. */
+    startLevelMusic() {
+        this.stopBgMusic();
+        this.activeTrack = 'level';
+        if (this.muted) return;
+        this.startBgAudio('audio/sounds/menu/game_background_sound.mp3');
+    }
+
+    /** Starts the endboss background music. */
+    startEndbossMusic() {
+        this.stopBgMusic();
+        this.activeTrack = 'endboss';
+        if (this.muted) return;
+        this.startBgAudio('audio/sounds/menu/endboss_background_sound.mp3');
     }
 
     /**
-     * Resumes the active track from where it left off (used after unmute/unpause).
+     * Resumes the active background track (used after unmute/unpause).
      */
     resumeMusic() {
-        if (!this.activeNotes || this.muted) return;
-        this.bgInterval = setInterval(() => {
-            const note = this.activeNotes[this.bgNote++ % this.activeNotes.length];
-            if (note > 0) this.playTone(note, (this.activeTempo / 1000) * 0.75, 'triangle');
-        }, this.activeTempo);
-        storeInterval(this.bgInterval);
+        if (this.muted || !this.activeTrack) return;
+        if (this.activeTrack === 'menu') this.startMenuMusic();
+        else if (this.activeTrack === 'level') this.startLevelMusic();
+        else if (this.activeTrack === 'endboss') this.startEndbossMusic();
     }
 
     /**
-     * Stops the currently playing background music.
+     * Stops all background music (real and synthesized).
      */
     stopBgMusic() {
-        if (this.bgInterval) {
-            clearInterval(this.bgInterval);
-            this.bgInterval = null;
+        if (this.bgAudio) {
+            this.bgAudio.pause();
+            this.bgAudio.currentTime = 0;
+            this.bgAudio = null;
         }
     }
 
+    /**
+     * Plays a real audio file as a one-shot sound effect.
+     * @param {string} src - Path to the audio file.
+     * @param {number} [volume=1]
+     */
+    playSound(src, volume = 1) {
+        if (this.muted) return;
+        const audio = new Audio(src);
+        audio.volume = volume;
+        audio.play().catch(() => {});
+    }
+
+    /** Plays sound when starting a game. */
+    playGameStart() { this.playSound('audio/sounds/menu/play_game_sound.mp3', 0.8); }
+
+    /** Plays sound when advancing to the next level. */
+    nextLevelSound() { this.playSound('audio/sounds/menu/next_level_sound.mp3', 0.8); }
+
+    /** Plays sound when returning to the main menu. */
+    backToMenuSound() { this.playSound('audio/sounds/menu/back_to_mainmenu_sound.mp3', 0.8); }
+
     /** Plays jump sound effect. */
-    jump() { this.playTone(523, 0.15); }
+    jump() { this.playSound('audio/sounds/character/characterJump.wav', 0.6); }
 
     /** Plays coin collection sound effect. */
-    collectCoin() { this.playTone(880, 0.1); }
+    collectCoin() { this.playSound('audio/sounds/collectibles/collectSound.wav', 0.7); }
 
     /** Plays bottle pickup sound effect. */
-    collectBottle() { this.playTone(440, 0.12); }
+    collectBottle() { this.playSound('audio/sounds/collectibles/bottleCollectSound.wav', 0.7); }
 
     /** Plays bottle throw sound effect. */
-    throwBottle() { this.playTone(330, 0.2, 'sawtooth'); }
+    throwBottle() { this.playSound('audio/sounds/throwable/throw_bottle_sound.mp3', 0.8); }
 
-    /** Plays bottle splash sound effect. */
-    splash() { this.playTone(220, 0.3, 'triangle'); }
+    /** Plays bottle splash/break sound effect. */
+    splash() { this.playSound('audio/sounds/throwable/bottleBreak.mp3', 0.8); }
 
     /** Plays enemy death sound effect. */
-    enemyDead() { this.playTone(200, 0.25, 'sawtooth'); }
+    enemyDead() { this.playSound('audio/sounds/chicken/chickenDead.mp3', 0.8); }
 
     /** Plays player hurt sound effect. */
-    hurt() { this.playTone(150, 0.4, 'sawtooth'); }
+    hurt() { this.playSound('audio/sounds/character/characterDamage.mp3', 0.8); }
 
     /** Plays game over sound effect. */
-    gameOver() { this.playTone(110, 1.0, 'sawtooth'); }
+    gameOver() { this.playSound('audio/sounds/character/characterDead.wav', 1.0); }
 
-    /** Plays endboss hurt/cluck sound when the endboss takes damage. */
-    endbossHurt() {
-        this.playTone(600, 0.05, 'sawtooth');
-        setTimeout(() => this.playTone(500, 0.05, 'sawtooth'), 60);
-        setTimeout(() => this.playTone(400, 0.1,  'sawtooth'), 120);
-    }
+    /** Plays endboss hurt sound. */
+    endbossHurt() { this.playSound('audio/sounds/endboss/endbossApproach.wav', 0.9); }
 
     /** Plays snore sound effect during sleep animation. */
-    snore() {
-        this.playTone(180, 0.3, 'sine');
-        setTimeout(() => this.playTone(140, 0.5, 'sine'), 350);
-    }
+    snore() { this.playSound('audio/sounds/character/characterSnoring.mp3', 0.5); }
 
     /** Plays victory fanfare. */
-    win() {
-        this.playTone(523, 0.2);
-        setTimeout(() => this.playTone(659, 0.2), 200);
-        setTimeout(() => this.playTone(784, 0.4), 400);
-    }
+    win() { this.playSound('audio/sounds/game/gameStart.mp3', 1.0); }
 
     /**
      * Toggles mute state, persists it, and pauses/resumes music accordingly.

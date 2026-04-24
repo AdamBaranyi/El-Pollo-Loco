@@ -4,7 +4,7 @@
 class ThrowableObject extends MovableObject {
     width = 60;
     height = 60;
-    groundY = 370;
+    groundY = 385;
     isThrowable = true;
     splashing = false;
     splashDone = false;

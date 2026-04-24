@@ -4,7 +4,7 @@
  */
 function createBackgroundObjectsL2() {
     const objs = [];
-    for (let i = -1; i <= 6; i++) {
+    for (let i = -1; i <= 7; i++) {
         const v = Math.abs(i % 2) === 0 ? '1' : '2';
         objs.push(
             new BackgroundObject('img/5_background/layers/air.png', 719 * i),
@@ -21,6 +21,8 @@ function createBackgroundObjectsL2() {
  * @returns {MovableObject[]}
  */
 function createEnemiesL2() {
+    const cfg = { speedMultiplier: 1.25, hitStrength: 10 };
+    const cfgS = { speedMultiplier: 1.25, hitStrength: 8 };
     const endboss = new Endboss({
         hitStrength: 25,
         chargeInterval: 2000,
@@ -29,22 +31,22 @@ function createEnemiesL2() {
     });
     endboss.x = 4200;
     return [
-        new Chicken(700),
-        new Chicken(900),
-        new SmallChicken(1000),
-        new Chicken(1200),
-        new SmallChicken(1400),
-        new Chicken(1600),
-        new Chicken(1800),
-        new SmallChicken(2000),
-        new Chicken(2300),
-        new SmallChicken(2500),
-        new Chicken(2800),
-        new SmallChicken(3000),
-        new Chicken(3200),
-        new Chicken(3500),
-        new SmallChicken(3700),
-        new Chicken(3900),
+        new Chicken(700, cfg),
+        new Chicken(900, cfg),
+        new SmallChicken(1000, cfgS),
+        new Chicken(1200, cfg),
+        new SmallChicken(1400, cfgS),
+        new Chicken(1600, cfg),
+        new Chicken(1800, cfg),
+        new SmallChicken(2000, cfgS),
+        new Chicken(2300, cfg),
+        new SmallChicken(2500, cfgS),
+        new Chicken(2800, cfg),
+        new SmallChicken(3000, cfgS),
+        new Chicken(3200, cfg),
+        new Chicken(3500, cfg),
+        new SmallChicken(3700, cfgS),
+        new Chicken(3900, cfg),
         endboss
     ];
 }
@@ -126,6 +128,6 @@ function initLevel2() {
         createCoinsL2(),
         createBottlesL2()
     );
-    level.level_end_x = 4200;
+    level.level_end_x = 5000;
     return level;
 }

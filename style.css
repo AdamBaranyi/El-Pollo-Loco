@@ -205,11 +205,11 @@ button:active {
 
 #pause-btn {
     display: none;
-    right: 94px;
+    right: 114px;
 }
 
 #mute-btn {
-    right: 52px;
+    right: 62px;
 }
 
 #fullscreen-btn {
@@ -276,7 +276,7 @@ button:active {
     width: 100%;
     justify-content: space-between;
     padding: 0 16px;
-    z-index: 5;
+    z-index: 10;
 }
 
 .mobile-left-group,
@@ -351,8 +351,20 @@ button:active {
         background-size: cover;
     }
 
-    #mobile-controls {
-        display: flex;
+    #pause-btn,
+    #mute-btn,
+    #fullscreen-btn {
+        font-size: 1rem;
+        padding: 4px 8px;
+    }
+
+    #pause-btn  { right: 90px; }
+    #mute-btn   { right: 48px; }
+    #fullscreen-btn { right: 8px; }
+
+    #language-switcher button {
+        font-size: 0.85rem;
+        padding: 4px 7px;
     }
 }
 
@@ -362,16 +374,16 @@ button:active {
         font-size: 1rem;
         padding: 6px 16px;
     }
-    
+
     #start-btn {
         font-size: 1.2rem;
         padding: 8px 24px;
     }
-    
+
     .start-buttons, #start-content {
         gap: 6px;
     }
-    
+
     .imprint-link {
         margin-top: 2px;
         font-size: 0.85rem;
@@ -379,29 +391,99 @@ button:active {
 
     .end-content {
         padding: 16px 24px;
-        margin-top: 100px;
+        margin-top: 80px;
         gap: 8px;
     }
 
     .end-content button {
-        min-width: 140px;
+        min-width: 130px;
         font-size: 1rem;
         padding: 6px 16px;
     }
 
     .dialog-inner {
-        padding: 20px 24px;
-        min-width: 280px;
+        padding: 16px 20px;
+        min-width: 260px;
+        max-width: 90vw;
     }
 
     .dialog-inner h2 {
-        font-size: 1.5rem;
-        margin-bottom: 12px;
+        font-size: 1.4rem;
+        margin-bottom: 10px;
     }
 
     .control-row {
+        font-size: 0.9rem;
+        gap: 10px;
+    }
+
+    .htp-row {
+        font-size: 0.88rem;
+        gap: 8px;
+    }
+
+    .htp-icon {
+        font-size: 1.1rem;
+    }
+
+    .pause-content h2 {
+        font-size: 2rem;
+    }
+
+    .pause-content button {
+        font-size: 1.1rem;
+        padding: 9px 32px;
+    }
+}
+
+/* Very small screens (320px minimum) */
+@media (max-width: 380px) {
+    .mobile-btn {
+        width: 52px;
+        height: 52px;
+        font-size: 1.3rem;
+    }
+
+    #mobile-controls {
+        bottom: 8px;
+        padding: 0 10px;
+    }
+
+    .mobile-left-group,
+    .mobile-right-group {
+        gap: 6px;
+    }
+
+    #pause-btn  { right: 78px; }
+    #mute-btn   { right: 42px; }
+    #fullscreen-btn { right: 6px; }
+
+    #pause-btn,
+    #mute-btn,
+    #fullscreen-btn {
+        font-size: 0.9rem;
+        padding: 3px 6px;
+    }
+
+    #language-switcher button {
+        font-size: 0.78rem;
+        padding: 3px 5px;
+    }
+
+    .start-buttons button {
+        font-size: 0.9rem;
+        padding: 5px 14px;
+    }
+
+    #start-btn {
         font-size: 1rem;
-        gap: 12px;
+        padding: 6px 18px;
+    }
+
+    .dialog-inner {
+        min-width: 0;
+        width: 94vw;
+        padding: 14px 14px;
     }
 }
 
@@ -419,6 +501,43 @@ button:active {
 /* No scrollbar */
 ::-webkit-scrollbar {
     display: none;
+}
+
+/* Pause Overlay */
+
+#pause-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 25;
+}
+
+#pause-overlay.hidden {
+    display: none;
+}
+
+.pause-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.pause-content h2 {
+    font-size: 3rem;
+    color: #f5c842;
+    text-shadow: 2px 2px 8px #000;
+    letter-spacing: 4px;
+}
+
+.pause-content button {
+    background: #e8a830;
+    color: #1a0500;
+    font-size: 1.4rem;
+    padding: 12px 48px;
 }
 
 /* How to Play dialog */
