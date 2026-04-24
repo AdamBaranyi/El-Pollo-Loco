@@ -83,22 +83,60 @@ function toggleMute() {
 }
 
 /**
- * Toggles fullscreen mode for the canvas container (with iOS Safari support).
+ * Applies a fake-fullscreen using the actual visual viewport (window.innerWidth/Height).
+ * Avoids the iOS landscape bug where screen.width/height return portrait values.
+ */
+function applyFakeFullscreen(container) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const ratio = 720 / 480;
+    const fsW = Math.min(vw, vh * ratio);
+    const fsH = Math.min(vh, vw / ratio);
+    container.classList.add('fake-fullscreen');
+    container.style.position = 'fixed';
+    container.style.top    = Math.max(0, (vh - fsH) / 2) + 'px';
+    container.style.left   = Math.max(0, (vw - fsW) / 2) + 'px';
+    container.style.width  = fsW + 'px';
+    container.style.height = fsH + 'px';
+    container.style.border = 'none';
+    container.style.borderRadius = '0';
+    container.style.zIndex = '9999';
+}
+
+/**
+ * Removes fake-fullscreen and restores all inline styles.
+ */
+function removeFakeFullscreen(container) {
+    container.classList.remove('fake-fullscreen');
+    ['position','top','left','width','height','border','borderRadius','zIndex'].forEach(p => {
+        container.style[p] = '';
+    });
+}
+
+/**
+ * Toggles fullscreen. Native API on desktop browsers, JS fake-fullscreen on iOS Safari.
  */
 function toggleFullscreen() {
     const container = document.getElementById('canvas-container');
-    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
-    if (!isFullscreen) {
-        if (container.requestFullscreen) {
-            container.requestFullscreen().catch(() => {});
-        } else if (container.webkitRequestFullscreen) {
-            container.webkitRequestFullscreen();
+    const isNative = document.fullscreenElement || document.webkitFullscreenElement;
+    const isFake = container.classList.contains('fake-fullscreen');
+
+    if (isNative) {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        return;
+    }
+    if (isFake) {
+        removeFakeFullscreen(container);
+        return;
+    }
+    const req = container.requestFullscreen || container.webkitRequestFullscreen;
+    if (req) {
+        try {
+            Promise.resolve(req.call(container)).catch(() => applyFakeFullscreen(container));
+        } catch (_) {
+            applyFakeFullscreen(container);
         }
     } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        }
+        applyFakeFullscreen(container);
     }
 }

@@ -28,13 +28,18 @@
             <div id="start-screen">
                 <div id="start-content">
                     <div class="start-buttons">
-                        <button id="start-btn" onclick="startGame(1)" data-i18n="playLevel1">Play (Level 1)</button>
-                        <button id="start-btn-2" onclick="startGame(2)" style="margin-top: 10px;" data-i18n="playLevel2">Play (Level 2)</button>
-                        <button id="start-btn-3" onclick="startGame(3)" style="margin-top: 10px;" data-i18n="playLevel3">Play (Level 3)</button>
-                        <button id="controls-btn" onclick="openControls()" style="margin-top: 10px;" data-i18n="controlsBtn">Controls</button>
-                        <button id="how-to-play-btn" onclick="openHowToPlay()" style="margin-top: 10px;" data-i18n="howToPlayBtn">How to Play</button>
-                    <div id="highscore-display" style="margin-top: 8px; color: #f5c842; font-size: 1.1rem;"></div>
-                        <a href="htmls/impressum.html" class="imprint-link" style="margin-top: 10px;" data-i18n="imprint">Imprint</a>
+                        <div class="level-group" style="display: flex; align-items: center; gap: 10px;">
+                            <div class="level-label" data-i18n="selectLevel" style="margin-bottom: 0;">Select Level</div>
+                            <div class="level-btn-row" style="margin-bottom: 0;">
+                                <button id="start-btn-1" class="level-circle-btn" onclick="startGame(1)">1</button>
+                                <button id="start-btn-2" class="level-circle-btn" onclick="startGame(2)">2</button>
+                                <button id="start-btn-3" class="level-circle-btn" onclick="startGame(3)">3</button>
+                            </div>
+                        </div>
+                        <button id="controls-btn" onclick="openControls()" data-i18n="controlsBtn">Controls</button>
+                        <button id="how-to-play-btn" onclick="openHowToPlay()" data-i18n="howToPlayBtn">How to Play</button>
+                    <div id="highscore-display" style="color: #f5c842; font-size: 1.1rem;"></div>
+                        <a href="htmls/impressum.html" class="imprint-link" data-i18n="imprint">Imprint</a>
                     </div>
                 </div>
             </div>
@@ -42,26 +47,25 @@
             <!-- Controls dialog -->
             <div id="controls-dialog" class="dialog hidden" onclick="closeOnBackdrop(event, 'controls-dialog')">
                 <div class="dialog-inner">
-                    <button class="close-btn" onclick="closeDialog('controls-dialog')">✕</button>
                     <h2 data-i18n="controlsTitle">Controls</h2>
                     <div class="controls-list">
                         <div class="control-row">
                             <span>← →</span><span data-i18n="walk">Walk</span>
                         </div>
                         <div class="control-row">
-                            <span>↑ / Leertaste</span><span data-i18n="jump">Jump</span>
+                            <span>↑ / Space</span><span data-i18n="jump">Jump</span>
                         </div>
                         <div class="control-row">
                             <span>D</span><span data-i18n="throw">Throw Bottle</span>
                         </div>
                     </div>
+                    <button class="dialog-close-btn" onclick="closeDialog('controls-dialog')" data-i18n="closeBtn">Close</button>
                 </div>
             </div>
 
             <!-- How to Play dialog -->
             <div id="how-to-play-dialog" class="dialog hidden" onclick="closeOnBackdrop(event, 'how-to-play-dialog')">
                 <div class="dialog-inner">
-                    <button class="close-btn" onclick="closeDialog('how-to-play-dialog')">✕</button>
                     <h2 data-i18n="howToPlayTitle">How to Play</h2>
                     <div class="htp-list">
                         <div class="htp-row">
@@ -89,6 +93,7 @@
                             <div><strong data-i18n="howToPlayFullscreen">Fullscreen</strong><p data-i18n="howToPlayFullscreenText">Alt + Enter or ⛶ button.</p></div>
                         </div>
                     </div>
+                    <button class="dialog-close-btn" onclick="closeDialog('how-to-play-dialog')" data-i18n="closeBtn">Close</button>
                 </div>
             </div>
 
@@ -127,7 +132,7 @@
                 <button onclick="setLanguage('de')">🇩🇪 DE</button>
             </div>
             <button id="pause-btn" onclick="togglePause()" title="Pause">⏸</button>
-            <button id="mute-btn" onclick="toggleMute()" title="Ton an/aus">🔊</button>
+            <button id="mute-btn" onclick="toggleMute()" title="Ton an/aus">🔇</button>
             <button id="fullscreen-btn" onclick="toggleFullscreen()" title="Vollbild">⛶</button>
 
             <!-- Mobile touch buttons (only visible on small screens) -->

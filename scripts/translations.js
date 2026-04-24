@@ -1,9 +1,7 @@
 const translations = {
     en: {
         "rotate": "Turn your device to play!",
-        "playLevel1": "Play (Level 1)",
-        "playLevel2": "Play (Level 2)",
-        "playLevel3": "Play (Level 3)",
+        "selectLevel": "Select Level",
         "controlsBtn": "Controls",
         "imprint": "Imprint",
         "controlsTitle": "Controls",
@@ -40,13 +38,12 @@ const translations = {
         "howToPlayFullscreen": "Fullscreen",
         "howToPlayFullscreenText": "Alt + Enter (Windows) or Option + Enter (Mac) or use the ⛶ button.",
         "howToPlayPause": "Pause",
-        "howToPlayPauseText": "Press P or Escape or use the ⏸ button to pause. Resume or go back to the main menu from the pause screen."
+        "howToPlayPauseText": "Press P or Escape or use the ⏸ button to pause. Resume or go back to the main menu from the pause screen.",
+        "closeBtn": "Close"
     },
     de: {
         "rotate": "Drehe dein Gerät um zu spielen!",
-        "playLevel1": "Spielen (Level 1)",
-        "playLevel2": "Spielen (Level 2)",
-        "playLevel3": "Spielen (Level 3)",
+        "selectLevel": "Level wählen",
         "controlsBtn": "Steuerung",
         "imprint": "Impressum",
         "controlsTitle": "Steuerung",
@@ -83,7 +80,8 @@ const translations = {
         "howToPlayFullscreen": "Vollbild",
         "howToPlayFullscreenText": "Alt + Enter (Windows) oder Option + Enter (Mac) oder ⛶ Button.",
         "howToPlayPause": "Pause",
-        "howToPlayPauseText": "P oder Escape oder ⏸ Button drücken um zu pausieren. Im Pause-Menü kannst du weiterspielen oder zum Hauptmenü zurück."
+        "howToPlayPauseText": "P oder Escape oder ⏸ Button drücken um zu pausieren. Im Pause-Menü kannst du weiterspielen oder zum Hauptmenü zurück.",
+        "closeBtn": "Schließen"
     }
 };
 

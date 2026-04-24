@@ -47,10 +47,22 @@ function bindMobileButton(id, key) {
     btn.addEventListener('contextmenu', e => e.preventDefault());
 }
 
-/** Shows mobile controls during gameplay. */
+/**
+ * Detects whether the user is on a touch device.
+ * @returns {boolean}
+ */
+function isTouchDevice() {
+    return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0));
+}
+
+/** Shows mobile controls during gameplay, but only on touch devices. */
 function showMobileControls() {
-    const el = document.getElementById('mobile-controls');
-    if (el) el.style.display = 'flex';
+    if (isTouchDevice()) {
+        const el = document.getElementById('mobile-controls');
+        if (el) el.style.display = 'flex';
+    }
 }
 
 /** Hides mobile controls on menu/non-game screens. */
@@ -60,10 +72,48 @@ function hideMobileControls() {
 }
 
 /**
+ * Sets wrapper/body dimensions from the actual visible viewport (fixes iOS Safari 100vh bug).
+ * Uses visualViewport when available so the canvas always fits the visible area exactly.
+ */
+function updateLayout() {
+    const vp = window.visualViewport;
+    const h = vp ? vp.height : window.innerHeight;
+    const w = vp ? vp.width : window.innerWidth;
+    const wrapper = document.getElementById('wrapper');
+    
+    if (wrapper) {
+        const canvas = document.getElementById('canvas');
+        if (isTouchDevice() && w > h) {
+            // Fill entire screen on mobile landscape WITHOUT distortion
+            // by expanding the game camera view (native widescreen)
+            const newWidth = Math.max(720, 480 * (w / h));
+            if (canvas) canvas.width = newWidth;
+            wrapper.style.width = w + 'px';
+            wrapper.style.height = h + 'px';
+        } else {
+            // Always maintain aspect ratio to prevent distortion (squishing)
+            if (canvas) canvas.width = 720;
+            const ratio = 720 / 480;
+            const wrapperW = Math.min(w, h * ratio);
+            const wrapperH = Math.min(h, w / ratio);
+            wrapper.style.width = wrapperW + 'px';
+            wrapper.style.height = wrapperH + 'px';
+        }
+    }
+    document.body.style.width = w + 'px';
+    document.body.style.height = h + 'px';
+}
+
+/**
  * Initialization function called on page load.
  * Sets up UI state and binds mobile touch controls.
  */
 function init() {
+    updateLayout();
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateLayout);
+    }
+    window.addEventListener('resize', updateLayout);
     updateMuteButton();
     updateHighscoreDisplay();
     applyTranslations();

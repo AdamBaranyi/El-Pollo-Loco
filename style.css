@@ -19,26 +19,29 @@
 body {
     background: #1a0d00;
     font-family: 'Boogaloo', cursive, sans-serif;
-    min-height: 100dvh;
+    width: 100vw;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     color: #fff;
 }
 
-/* Wrapper & Canvas */
+/* Wrapper & Canvas – dimensions set by JS updateLayout() for accurate iOS viewport */
 
 #wrapper {
     position: relative;
-    width: min(calc(100dvh * 720 / 480), 100vw);
+    /* CSS fallback only; JS overrides with visualViewport values */
+    width: min(100vw, calc(100vh * 720 / 480));
+    height: min(100vh, calc(100vw * 480 / 720));
+    flex-shrink: 0;
 }
 
 #canvas-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 720 / 480;
+    height: 100%;
     border: 3px solid #8b5a1a;
     border-radius: 6px;
     overflow: hidden;
@@ -56,12 +59,11 @@ body {
 #start-screen {
     position: absolute;
     inset: 0;
-    background: url('img/9_intro_outro_screens/start/startscreen_1.png') center / 100% 100% no-repeat;
+    background: url('img/9_intro_outro_screens/start/startscreen_1.png') center / cover no-repeat;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 2%;
-    padding-right: 12%;
+    padding: 0 0 3% 0;
     z-index: 10;
 }
 
@@ -69,17 +71,35 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: clamp(4px, 1.2vh, 10px);
+    max-height: 94%;
+    width: 100%;
+    padding: 0 10px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+#start-content::-webkit-scrollbar {
+    display: none;
 }
 
 .start-buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: clamp(10px, 2vh, 20px);
+    width: auto;
+    max-width: 95%;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 12px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
-/* Buttons */
+/* Buttons – base */
 
 button {
     font-family: 'Boogaloo', cursive;
@@ -101,27 +121,76 @@ button:active {
     transform: scale(0.97);
 }
 
-#start-btn {
-    background: #e8a830;
-    color: #1a0500;
-    font-size: 1.6rem;
-    padding: 12px 48px;
+/* Game-style: all start-screen buttons */
+
+.start-buttons button {
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 2px rgba(255,220,100,0.5);
+    min-width: clamp(130px, 24vmin, 190px);
+    font-size: clamp(0.85rem, 2.4vmin, 1.25rem);
+    padding: clamp(5px, 1.2vmin, 8px) clamp(14px, 3vmin, 24px);
 }
 
-#controls-btn {
-    background: rgba(255, 255, 255, 0.9);
-    color: #1a0500;
+.start-buttons button:hover {
+    filter: brightness(1.08);
+}
+
+.start-buttons button:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px) scale(0.98);
+}
+
+.level-label {
+    color: #f0b830;
+    font-size: clamp(1.2rem, 3vmin, 1.6rem);
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    margin-bottom: 2px;
+}
+
+.level-btn-row {
+    display: flex;
+    gap: clamp(8px, 2vmin, 16px);
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.level-circle-btn {
+    width: clamp(45px, 8vmin, 60px) !important;
+    height: clamp(45px, 8vmin, 60px) !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    font-size: clamp(1.2rem, 3vmin, 1.8rem) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#start-btn {
+    background: linear-gradient(180deg, #ffcc40 0%, #e08a10 100%);
+    border-color: #a07010;
+    box-shadow: 0 5px 0 #8a5e08, 0 7px 16px rgba(0,0,0,0.55);
 }
 
 .imprint-link {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.45);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: clamp(0.7rem, 2vmin, 0.95rem);
     text-decoration: none;
-    margin-top: 4px;
+    margin-top: 2px;
+    transition: background 0.2s ease, transform 0.1s ease;
 }
 
 .imprint-link:hover {
-    text-decoration: underline;
+    background: rgba(0, 0, 0, 0.65);
+    transform: scale(1.05);
 }
 
 /* Dialogs */
@@ -146,6 +215,9 @@ button:active {
     padding: 36px 48px;
     position: relative;
     min-width: 320px;
+    max-height: 85vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     text-align: center;
     color: #3a1800;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
@@ -157,15 +229,21 @@ button:active {
     color: #5a2800;
 }
 
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    background: none;
-    font-size: 1.3rem;
-    color: #5a2800;
-    padding: 4px 8px;
-    line-height: 1;
+.dialog-close-btn {
+    margin-top: 18px;
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.35);
+    font-size: 1.2rem;
+    padding: 8px 36px;
+    min-width: 140px;
+}
+
+.dialog-close-btn:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px);
 }
 
 .controls-list {
@@ -259,11 +337,19 @@ button:active {
 }
 
 .end-content button {
-    background: #e8a830;
-    color: #1a0500;
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.4);
     font-size: 1.2rem;
     padding: 10px 28px;
     min-width: 180px;
+}
+
+.end-content button:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px);
 }
 
 /* Mobile Controls */
@@ -271,31 +357,50 @@ button:active {
 #mobile-controls {
     display: none;
     position: absolute;
-    bottom: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     left: 0;
     width: 100%;
     justify-content: space-between;
-    padding: 0 16px;
+    padding-left: calc(14px + env(safe-area-inset-left, 0px));
+    padding-right: calc(14px + env(safe-area-inset-right, 0px));
+    box-sizing: border-box;
     z-index: 10;
 }
 
 .mobile-left-group,
 .mobile-right-group {
     display: flex;
-    gap: 10px;
+    gap: clamp(8px, 2vw, 16px);
 }
 
 .mobile-btn {
-    width: 66px;
-    height: 66px;
-    font-size: 1.6rem;
-    background: rgba(255, 255, 255, 0.25);
+    width: clamp(50px, 12vmin, 70px);
+    height: clamp(50px, 12vmin, 70px);
+    font-size: clamp(1.4rem, 5vmin, 2rem);
+    background: linear-gradient(180deg, rgba(240,184,48,0.85) 0%, rgba(160,90,10,0.85) 100%);
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    color: #fff;
+    border: 3px solid rgba(255,200,60,0.9);
+    box-shadow: 0 4px 0 rgba(100,50,0,0.6), 0 0 10px rgba(0,0,0,0.4);
+    color: #3a1000;
+    text-shadow: 0 1px 2px rgba(255,220,100,0.5);
     touch-action: none;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
+    transition: transform 0.08s, box-shadow 0.08s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgba(100,50,0,0.6);
+}
+
+#btn-throw {
+    background: rgba(80,40,0,0.8) url('img/6_salsa_bottle/salsa_bottle.png') center / 50% no-repeat;
+    border-color: rgba(255,200,60,0.9);
+    font-size: 0; /* hide emoji, show image */
 }
 
 /* Rotate Message */
@@ -331,17 +436,7 @@ button:active {
 /* Responsive (tablet / phone) */
 
 @media (max-width: 768px) {
-    body {
-        justify-content: flex-start;
-    }
-
-    #wrapper {
-        width: 100vw;
-    }
-
     #canvas-container {
-        width: 100vw;
-        aspect-ratio: 720 / 480;
         border-radius: 0;
         border-left: none;
         border-right: none;
@@ -370,25 +465,6 @@ button:active {
 
 /* Extra small devices / Mobile landscape heights */
 @media (max-height: 480px), (max-width: 480px) {
-    button {
-        font-size: 1rem;
-        padding: 6px 16px;
-    }
-
-    #start-btn {
-        font-size: 1.2rem;
-        padding: 8px 24px;
-    }
-
-    .start-buttons, #start-content {
-        gap: 6px;
-    }
-
-    .imprint-link {
-        margin-top: 2px;
-        font-size: 0.85rem;
-    }
-
     .end-content {
         padding: 16px 24px;
         margin-top: 80px;
@@ -433,20 +509,28 @@ button:active {
     .pause-content button {
         font-size: 1.1rem;
         padding: 9px 32px;
+        min-width: 160px;
+    }
+
+    .dialog-close-btn {
+        font-size: 1rem;
+        padding: 7px 24px;
+        min-width: 110px;
+        margin-top: 12px;
     }
 }
 
 /* Very small screens (320px minimum) */
 @media (max-width: 380px) {
     .mobile-btn {
-        width: 52px;
-        height: 52px;
-        font-size: 1.3rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 
     #mobile-controls {
-        bottom: 8px;
-        padding: 0 10px;
+        bottom: 6px;
+        padding: 0 8px;
     }
 
     .mobile-left-group,
@@ -468,16 +552,6 @@ button:active {
     #language-switcher button {
         font-size: 0.78rem;
         padding: 3px 5px;
-    }
-
-    .start-buttons button {
-        font-size: 0.9rem;
-        padding: 5px 14px;
-    }
-
-    #start-btn {
-        font-size: 1rem;
-        padding: 6px 18px;
     }
 
     .dialog-inner {
@@ -534,10 +608,19 @@ button:active {
 }
 
 .pause-content button {
-    background: #e8a830;
-    color: #1a0500;
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.4);
     font-size: 1.4rem;
     padding: 12px 48px;
+    min-width: 200px;
+}
+
+.pause-content button:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px);
 }
 
 /* How to Play dialog */
@@ -603,4 +686,21 @@ button:active {
 #language-switcher button:hover {
     background: rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
+}
+
+/* Native fullscreen – fill screen, keep ratio centered */
+
+#canvas-container:fullscreen,
+#canvas-container:-webkit-full-screen {
+    width: min(100vw, calc(100vh * 720 / 480));
+    height: min(100vh, calc(100vw * 480 / 720));
+    margin: auto;
+    border: none;
+    border-radius: 0;
+}
+
+/* iOS / Safari fake-fullscreen – dimensions set by JS using screen.width/height */
+/* Inline styles handle position/size; only z-index needed here as marker */
+#canvas-container.fake-fullscreen {
+    z-index: 9999;
 }

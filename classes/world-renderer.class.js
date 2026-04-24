@@ -44,6 +44,7 @@ class WorldRenderer {
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
         if (this.endboss && this.endboss.firstContact) {
+            this.statusBarEndboss.x = this.canvas.width - 210;
             this.addToMap(this.statusBarEndboss);
         }
         this.drawScore();
@@ -56,9 +57,10 @@ class WorldRenderer {
         const text = `Score: ${this.score}`;
         this.ctx.font = 'bold 20px Boogaloo, sans-serif';
         this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        this.ctx.fillText(text, 572, 468);
+        const baseX = this.canvas.width - 150;
+        this.ctx.fillText(text, baseX + 2, 468);
         this.ctx.fillStyle = '#fff';
-        this.ctx.fillText(text, 570, 466);
+        this.ctx.fillText(text, baseX, 466);
     }
 
     /**
