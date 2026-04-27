@@ -3,7 +3,7 @@
 #start-screen {
     position: absolute;
     inset: 0;
-    background: url('../img/9_intro_outro_screens/start/startscreen_1.png') center / cover no-repeat;
+    background: url('../img/9_intro_outro_screens/start/startscreen_1.png') center / 100% 100% no-repeat;
     display: flex;
     align-items: flex-end;
     justify-content: center;
