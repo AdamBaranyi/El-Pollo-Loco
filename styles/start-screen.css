@@ -1,0 +1,140 @@
+/* --- Start Screen Container --- */
+
+#start-screen {
+    position: absolute;
+    inset: 0;
+    background: url('../img/9_intro_outro_screens/start/startscreen_1.png') center / cover no-repeat;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 0 3% 0;
+    z-index: 10;
+}
+
+#start-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(4px, 1.2vh, 10px);
+    max-height: 94%;
+    width: 100%;
+    padding: 0 10px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+#start-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- Base Buttons --- */
+
+.start-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(10px, 2vh, 20px);
+    width: auto;
+    max-width: 95%;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 12px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+button {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.4rem;
+    padding: 10px 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s ease, filter 0.15s ease;
+    user-select: none;
+}
+
+button:hover {
+    transform: scale(1.06);
+    filter: brightness(1.1);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.start-buttons button {
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 2px rgba(255,220,100,0.5);
+    min-width: clamp(130px, 24vmin, 190px);
+    font-size: clamp(0.85rem, 2.4vmin, 1.25rem);
+    padding: clamp(5px, 1.2vmin, 8px) clamp(14px, 3vmin, 24px);
+}
+
+.start-buttons button:hover {
+    filter: brightness(1.08);
+}
+
+.start-buttons button:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px) scale(0.98);
+}
+
+/* --- Level Buttons --- */
+
+.level-label {
+    color: #f0b830;
+    font-size: clamp(1.2rem, 3vmin, 1.6rem);
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    margin-bottom: 2px;
+}
+
+.level-btn-row {
+    display: flex;
+    gap: clamp(8px, 2vmin, 16px);
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.level-circle-btn {
+    width: clamp(45px, 8vmin, 60px) !important;
+    height: clamp(45px, 8vmin, 60px) !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    font-size: clamp(1.2rem, 3vmin, 1.8rem) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#start-btn {
+    background: linear-gradient(180deg, #ffcc40 0%, #e08a10 100%);
+    border-color: #a07010;
+    box-shadow: 0 5px 0 #8a5e08, 0 7px 16px rgba(0,0,0,0.55);
+}
+
+/* --- Imprint Link --- */
+
+.imprint-link {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.45);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: clamp(0.7rem, 2vmin, 0.95rem);
+    text-decoration: none;
+    margin-top: 2px;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.imprint-link:hover {
+    background: rgba(0, 0, 0, 0.65);
+    transform: scale(1.05);
+}

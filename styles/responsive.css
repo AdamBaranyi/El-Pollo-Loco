@@ -1,0 +1,171 @@
+/* --- Rotate Message --- */
+
+#rotate-message {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../img/5_background/complete_background.png') center / cover no-repeat;
+    color: #fff;
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.6rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 1000;
+    text-align: center;
+    padding: 24px;
+}
+
+.rotate-icon {
+    font-size: 4rem;
+    animation: rotate-anim 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate-anim {
+    0%   { transform: rotate(0deg); }
+    50%  { transform: rotate(90deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* --- Tablet --- */
+
+@media (max-width: 768px) {
+    #canvas-container {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    #start-screen {
+        background-size: cover;
+    }
+
+    #pause-btn,
+    #mute-btn,
+    #fullscreen-btn {
+        font-size: 1rem;
+        padding: 4px 8px;
+    }
+
+    #pause-btn  { right: 90px; }
+    #mute-btn   { right: 48px; }
+    #fullscreen-btn { right: 8px; }
+
+    #language-switcher button {
+        font-size: 0.85rem;
+        padding: 4px 7px;
+    }
+}
+
+/* --- Mobile Landscape --- */
+
+@media (max-height: 480px), (max-width: 480px) {
+    .end-content {
+        padding: 16px 24px;
+        margin-top: 80px;
+        gap: 8px;
+    }
+
+    .end-content button {
+        min-width: 130px;
+        font-size: 1rem;
+        padding: 6px 16px;
+    }
+
+    .dialog-inner {
+        padding: 16px 20px;
+        min-width: 260px;
+        max-width: 90vw;
+    }
+
+    .dialog-inner h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+
+    .control-row {
+        font-size: 0.9rem;
+        gap: 10px;
+    }
+
+    .htp-row {
+        font-size: 0.88rem;
+        gap: 8px;
+    }
+
+    .htp-icon {
+        font-size: 1.1rem;
+    }
+
+    .pause-content h2 {
+        font-size: 2rem;
+    }
+
+    .pause-content button {
+        font-size: 1.1rem;
+        padding: 9px 32px;
+        min-width: 160px;
+    }
+
+    .dialog-close-btn {
+        font-size: 1rem;
+        padding: 7px 24px;
+        min-width: 110px;
+        margin-top: 12px;
+    }
+}
+
+/* --- Very Small Screens --- */
+
+@media (max-width: 380px) {
+    .mobile-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    #mobile-controls {
+        bottom: 6px;
+        padding: 0 8px;
+    }
+
+    .mobile-left-group,
+    .mobile-right-group {
+        gap: 6px;
+    }
+
+    #pause-btn  { right: 78px; }
+    #mute-btn   { right: 42px; }
+    #fullscreen-btn { right: 6px; }
+
+    #pause-btn,
+    #mute-btn,
+    #fullscreen-btn {
+        font-size: 0.9rem;
+        padding: 3px 6px;
+    }
+
+    #language-switcher button {
+        font-size: 0.78rem;
+        padding: 3px 5px;
+    }
+
+    .dialog-inner {
+        min-width: 0;
+        width: 94vw;
+        padding: 14px 14px;
+    }
+}
+
+/* --- Portrait Mode --- */
+
+@media (orientation: portrait) and (max-width: 900px) {
+    #rotate-message {
+        display: flex;
+    }
+
+    #wrapper {
+        display: none;
+    }
+}

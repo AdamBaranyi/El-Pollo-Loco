@@ -1,0 +1,59 @@
+/* --- Base End Screens --- */
+
+#game-over-screen,
+#win-screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+#game-over-screen {
+    background: rgba(0, 0, 0, 0.6) url('../img/9_intro_outro_screens/game_over/game over.png') center / contain no-repeat;
+}
+
+#win-screen {
+    background: rgba(0, 0, 0, 0.55) url('../img/You won, you lost/You Won B.png') center / contain no-repeat;
+}
+
+#game-over-screen.hidden,
+#win-screen.hidden {
+    display: none;
+}
+
+/* --- End Screen Content --- */
+
+.end-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 28px 48px;
+    border-radius: 14px;
+    margin-top: 150px;
+}
+
+.end-content h2 {
+    font-size: 2rem;
+    text-shadow: 2px 2px 6px #000;
+    display: none;
+}
+
+.end-content button {
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.4);
+    font-size: 1.2rem;
+    padding: 10px 28px;
+    min-width: 180px;
+}
+
+.end-content button:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px);
+}

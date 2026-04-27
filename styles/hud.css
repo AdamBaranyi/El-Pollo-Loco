@@ -1,0 +1,107 @@
+/* --- Top HUD Buttons --- */
+
+#pause-btn,
+#mute-btn,
+#fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    font-size: 1.3rem;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    border-radius: 6px;
+    z-index: 15;
+}
+
+#pause-btn {
+    display: none;
+    right: 114px;
+}
+
+#mute-btn {
+    right: 62px;
+}
+
+#fullscreen-btn {
+    right: 10px;
+}
+
+/* --- Language Switcher --- */
+
+#language-switcher {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+}
+
+#language-switcher button {
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.2s ease;
+    min-width: auto;
+}
+
+#language-switcher button:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
+
+/* --- Mobile Controls --- */
+
+#mobile-controls {
+    display: none;
+    position: absolute;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    width: 100%;
+    justify-content: space-between;
+    padding-left: calc(14px + env(safe-area-inset-left, 0px));
+    padding-right: calc(14px + env(safe-area-inset-right, 0px));
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.mobile-left-group,
+.mobile-right-group {
+    display: flex;
+    gap: clamp(8px, 2vw, 16px);
+}
+
+.mobile-btn {
+    width: clamp(50px, 12vmin, 70px);
+    height: clamp(50px, 12vmin, 70px);
+    font-size: clamp(1.4rem, 5vmin, 2rem);
+    background: linear-gradient(180deg, rgba(240,184,48,0.85) 0%, rgba(160,90,10,0.85) 100%);
+    border-radius: 50%;
+    border: 3px solid rgba(255,200,60,0.9);
+    box-shadow: 0 4px 0 rgba(100,50,0,0.6), 0 0 10px rgba(0,0,0,0.4);
+    color: #3a1000;
+    text-shadow: 0 1px 2px rgba(255,220,100,0.5);
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    transition: transform 0.08s, box-shadow 0.08s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgba(100,50,0,0.6);
+}
+
+#btn-throw {
+    background: rgba(80,40,0,0.8) url('../img/6_salsa_bottle/salsa_bottle.png') center / 50% no-repeat;
+    border-color: rgba(255,200,60,0.9);
+    font-size: 0;
+}

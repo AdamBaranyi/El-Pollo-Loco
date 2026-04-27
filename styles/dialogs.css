@@ -1,0 +1,156 @@
+/* --- Base Dialog --- */
+
+.dialog {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+}
+
+.dialog.hidden {
+    display: none;
+}
+
+.dialog-inner {
+    background: #fef3d0;
+    border-radius: 14px;
+    padding: 36px 48px;
+    position: relative;
+    min-width: 320px;
+    max-height: 85vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    text-align: center;
+    color: #3a1800;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+.dialog-inner h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #5a2800;
+}
+
+.dialog-close-btn {
+    margin-top: 18px;
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.35);
+    font-size: 1.2rem;
+    padding: 8px 36px;
+    min-width: 140px;
+}
+
+.dialog-close-btn:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px);
+}
+
+/* --- Controls Dialog --- */
+
+.controls-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    font-size: 1.15rem;
+    color: #3a1800;
+}
+
+.control-row span:first-child {
+    font-weight: bold;
+    min-width: 100px;
+    text-align: right;
+}
+
+/* --- How to Play Dialog --- */
+
+.htp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+    margin-top: 4px;
+}
+
+.htp-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 1rem;
+    color: #3a1800;
+}
+
+.htp-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.htp-row strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 2px;
+}
+
+.htp-row p {
+    margin: 0;
+    font-size: 0.92rem;
+    opacity: 0.85;
+}
+
+/* --- Pause Overlay --- */
+
+#pause-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 25;
+}
+
+#pause-overlay.hidden {
+    display: none;
+}
+
+.pause-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.pause-content h2 {
+    font-size: 3rem;
+    color: #f5c842;
+    text-shadow: 2px 2px 8px #000;
+    letter-spacing: 4px;
+}
+
+.pause-content button {
+    background: linear-gradient(180deg, #f0b830 0%, #c47a10 100%);
+    color: #3a1000;
+    border: 3px solid #8b5a0a;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 #7a4a05, 0 6px 12px rgba(0,0,0,0.4);
+    font-size: 1.4rem;
+    padding: 12px 48px;
+    min-width: 200px;
+}
+
+.pause-content button:active {
+    box-shadow: 0 1px 0 #7a4a05;
+    transform: translateY(3px);
+}
