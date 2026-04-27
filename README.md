@@ -27,11 +27,19 @@ No extra installation or software is required!
 
 ## 🛠️ Built With
 * HTML5 Canvas
-* CSS3
-* Vanilla JavaScript (Object-Oriented Programming)
+* CSS3 (Fully Responsive)
+* Vanilla JavaScript
+* **Object-Oriented Programming (OOP)**: The game is built using a clean, modular class structure (e.g., `Character`, `World`, `Endboss`, `ThrowableObject`) ensuring maintainability and scalability.
 
 ## 📌 Game Story
 Pepe's village has been overrun by a crazed gang of chickens controlled by a giant Endboss. It's up to you to navigate the perilous desert, collect spicy salsa bottles, and throw them at the Endboss to reclaim the village! Only those with the best jumping skills and aim can save the day.
 
----
+## 📂 Project Structure
+* `classes/` - Contains all OOP JavaScript classes (Character, Enemies, UI, World, etc.).
+* `scripts/` - Contains game lifecycle scripts and translations.
+* `styles/` - Modular CSS files for start screens, dialogs, HUD, and responsiveness.
+* `audio/` - Custom sound manager for all game effects.
+* `img/` - Game sprites and background layers.
 
+---
+**Author:** Ádám Baranyi
