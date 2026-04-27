@@ -1,4 +1,4 @@
-/* --- Start Screen Container --- */
+/* Start Screen Container */
 
 #start-screen {
     position: absolute;
@@ -28,7 +28,7 @@
     display: none;
 }
 
-/* --- Base Buttons --- */
+/* Base Buttons */
 
 .start-buttons {
     display: flex;
@@ -86,7 +86,7 @@ button:active {
     transform: translateY(3px) scale(0.98);
 }
 
-/* --- Level Buttons --- */
+/* Level Buttons */
 
 .level-label {
     color: #f0b830;
@@ -121,7 +121,7 @@ button:active {
     box-shadow: 0 5px 0 #8a5e08, 0 7px 16px rgba(0,0,0,0.55);
 }
 
-/* --- Imprint Link --- */
+/* Imprint Link */
 
 .imprint-link {
     color: rgba(255, 255, 255, 0.9);

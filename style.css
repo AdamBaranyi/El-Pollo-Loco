@@ -1,4 +1,4 @@
-/* --- Fonts & Reset --- */
+/* Fonts & Reset */
 
 @font-face {
     font-family: 'Boogaloo';
@@ -16,7 +16,7 @@
     padding: 0;
 }
 
-/* --- Body & Layout --- */
+/* Body & Layout */
 
 body {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./img/5_background/complete_background.png') center / cover no-repeat;
@@ -37,7 +37,7 @@ body {
     flex-shrink: 0;
 }
 
-/* --- Canvas Container --- */
+/* Canvas Container */
 
 #canvas-container {
     position: relative;
@@ -59,7 +59,7 @@ body {
     display: none;
 }
 
-/* --- Fullscreen Setup --- */
+/* Fullscreen Setup */
 
 #canvas-container:fullscreen,
 #canvas-container:-webkit-full-screen {

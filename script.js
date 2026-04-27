@@ -80,28 +80,29 @@ function updateLayout() {
     const h = vp ? vp.height : window.innerHeight;
     const w = vp ? vp.width : window.innerWidth;
     const wrapper = document.getElementById('wrapper');
-    
     if (wrapper) {
         const canvas = document.getElementById('canvas');
-        if (isTouchDevice() && w > h) {
-            // Fill entire screen on mobile landscape WITHOUT distortion
-            // by expanding the game camera view (native widescreen)
-            const newWidth = Math.max(720, 480 * (w / h));
-            if (canvas) canvas.width = newWidth;
-            wrapper.style.width = w + 'px';
-            wrapper.style.height = h + 'px';
-        } else {
-            // Always maintain aspect ratio to prevent distortion (squishing)
-            if (canvas) canvas.width = 720;
-            const ratio = 720 / 480;
-            const wrapperW = Math.min(w, h * ratio);
-            const wrapperH = Math.min(h, w / ratio);
-            wrapper.style.width = wrapperW + 'px';
-            wrapper.style.height = wrapperH + 'px';
-        }
+        if (isTouchDevice() && w > h) applyMobileLandscape(wrapper, canvas, w, h);
+        else applyDesktopAspect(wrapper, canvas, w, h);
     }
     document.body.style.width = w + 'px';
     document.body.style.height = h + 'px';
+}
+
+/** Applies native widescreen to fill mobile landscape without distortion. */
+function applyMobileLandscape(wrapper, canvas, w, h) {
+    const newWidth = Math.max(720, 480 * (w / h));
+    if (canvas) canvas.width = newWidth;
+    wrapper.style.width = w + 'px';
+    wrapper.style.height = h + 'px';
+}
+
+/** Maintains strict 720x480 aspect ratio to prevent squishing on desktop/portrait. */
+function applyDesktopAspect(wrapper, canvas, w, h) {
+    if (canvas) canvas.width = 720;
+    const ratio = 720 / 480;
+    wrapper.style.width = Math.min(w, h * ratio) + 'px';
+    wrapper.style.height = Math.min(h, w / ratio) + 'px';
 }
 
 /**
@@ -113,7 +114,14 @@ function init() {
     if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', updateLayout);
     }
-    window.addEventListener('resize', updateLayout);
+    window.addEventListener('resize', () => {
+        updateLayout();
+        if (!isTouchDevice()) {
+            hideMobileControls();
+        } else if (world && !world.gameEnded) {
+            showMobileControls();
+        }
+    });
     updateMuteButton();
     updateHighscoreDisplay();
     applyTranslations();

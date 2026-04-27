@@ -120,23 +120,23 @@ function toggleFullscreen() {
     const container = document.getElementById('canvas-container');
     const isNative = document.fullscreenElement || document.webkitFullscreenElement;
     const isFake = container.classList.contains('fake-fullscreen');
+    if (isNative || isFake) return exitCurrentFullscreen(isNative, container);
+    enterNativeFullscreen(container);
+}
 
-    if (isNative) {
-        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-        return;
-    }
-    if (isFake) {
-        removeFakeFullscreen(container);
-        return;
-    }
+/** Exits either native or fake fullscreen. */
+function exitCurrentFullscreen(isNative, container) {
+    if (isNative) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else removeFakeFullscreen(container);
+}
+
+/** Attempts to enter native fullscreen, falls back to fake fullscreen on error/unsupported. */
+function enterNativeFullscreen(container) {
     const req = container.requestFullscreen || container.webkitRequestFullscreen;
-    if (req) {
-        try {
-            Promise.resolve(req.call(container)).catch(() => applyFakeFullscreen(container));
-        } catch (_) {
-            applyFakeFullscreen(container);
-        }
-    } else {
+    if (!req) return applyFakeFullscreen(container);
+    try {
+        Promise.resolve(req.call(container)).catch(() => applyFakeFullscreen(container));
+    } catch (_) {
         applyFakeFullscreen(container);
     }
 }

@@ -1,4 +1,4 @@
-/* --- Base Dialog --- */
+/* Base Dialog */
 
 .dialog {
     position: absolute;
@@ -51,7 +51,7 @@
     transform: translateY(3px);
 }
 
-/* --- Controls Dialog --- */
+/* Controls Dialog */
 
 .controls-list {
     display: flex;
@@ -73,7 +73,7 @@
     text-align: right;
 }
 
-/* --- How to Play Dialog --- */
+/* How to Play Dialog */
 
 .htp-list {
     display: flex;
@@ -109,7 +109,7 @@
     opacity: 0.85;
 }
 
-/* --- Pause Overlay --- */
+/* Pause Overlay */
 
 #pause-overlay {
     position: absolute;

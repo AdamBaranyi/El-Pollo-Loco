@@ -1,4 +1,4 @@
-/* --- Rotate Message --- */
+/* Rotate Message */
 
 #rotate-message {
     display: none;
@@ -28,7 +28,7 @@
     100% { transform: rotate(0deg); }
 }
 
-/* --- Tablet --- */
+/* Tablet */
 
 @media (max-width: 768px) {
     #canvas-container {
@@ -58,7 +58,7 @@
     }
 }
 
-/* --- Mobile Landscape --- */
+/* Mobile Landscape */
 
 @media (max-height: 480px), (max-width: 480px) {
     .end-content {
@@ -116,7 +116,7 @@
     }
 }
 
-/* --- Very Small Screens --- */
+/* Very Small Screens */
 
 @media (max-width: 380px) {
     .mobile-btn {
@@ -158,7 +158,7 @@
     }
 }
 
-/* --- Portrait Mode --- */
+/* Portrait Mode */
 
 @media (orientation: portrait) and (max-width: 900px) {
     #rotate-message {

@@ -1,4 +1,4 @@
-/* --- Base End Screens --- */
+/* Base End Screens */
 
 #game-over-screen,
 #win-screen {
@@ -23,7 +23,7 @@
     display: none;
 }
 
-/* --- End Screen Content --- */
+/* End Screen Content */
 
 .end-content {
     display: flex;

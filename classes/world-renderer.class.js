@@ -51,16 +51,20 @@ class WorldRenderer {
     }
 
     /**
-     * Draws the current score in the bottom-right corner of the canvas.
+     * Draws the current score in the top-center of the canvas.
      */
     drawScore() {
         const text = `Score: ${this.score}`;
-        this.ctx.font = 'bold 20px Boogaloo, sans-serif';
+        this.ctx.font = 'bold 28px Boogaloo, sans-serif';
+        this.ctx.textAlign = 'center';
+        
         this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        const baseX = this.canvas.width - 150;
-        this.ctx.fillText(text, baseX + 2, 468);
+        this.ctx.fillText(text, this.canvas.width / 2 + 2, 34);
+        
         this.ctx.fillStyle = '#fff';
-        this.ctx.fillText(text, baseX, 466);
+        this.ctx.fillText(text, this.canvas.width / 2, 32);
+
+        this.ctx.textAlign = 'left';
     }
 
     /**

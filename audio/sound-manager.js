@@ -5,7 +5,7 @@
  */
 class SoundManager {
     constructor() {
-        this.muted = localStorage.getItem('muted') !== 'false';
+        this.muted = true;
         this.bgAudio = null;
         this.activeTrack = null;
     }
