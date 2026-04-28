@@ -156,8 +156,23 @@ class Character extends MovableObject {
         if (this.world && this.world.paused) return;
         if (this.isDead()) return this.playDeadAnimation();
         if (this.isHurt()) return this.playAnimation(this.IMAGES_HURT);
-        if (this.isAboveGround()) return this.playAnimation(this.IMAGES_JUMPING);
+        if (this.isAboveGround()) return this.playJumpAnimation();
         this.playGroundAnimation();
+    }
+
+    /**
+     * Plays the jump animation based on vertical direction.
+     * Guaranteed to keep hands up only while ascending, and hands down while falling.
+     */
+    playJumpAnimation() {
+        if (this.speedY > 0) {
+            // Ascending: play the first half of the jump (hands going up)
+            this.playAnimation(this.IMAGES_JUMPING.slice(1, 5));
+        } else {
+            // Descending: lock to the final jump frame (hands down) 
+            // so his hands are never in the air while falling.
+            this.img = this.imageCache[this.IMAGES_JUMPING[8]];
+        }
     }
 
     /**

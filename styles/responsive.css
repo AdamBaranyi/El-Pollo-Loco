@@ -160,12 +160,27 @@
 
 /* Portrait Mode */
 
-@media (orientation: portrait) and (max-width: 900px) {
+@media (orientation: portrait) and (max-width: 900px) and (hover: none) and (pointer: coarse) {
     #rotate-message {
         display: flex;
     }
 
     #wrapper {
         display: none;
+    }
+}
+
+/* Hide Fullscreen Button on Mobile */
+@media (hover: none) and (pointer: coarse) {
+    #fullscreen-btn {
+        display: none !important;
+    }
+
+    #mute-btn {
+        right: 10px !important;
+    }
+
+    #pause-btn {
+        right: 62px !important;
     }
 }
