@@ -141,6 +141,15 @@ class Character extends MovableObject {
     }
 
     /**
+     * Overrides jump to reset the animation frame.
+     * Prevents the jump animation from starting in the middle and twitching.
+     */
+    jump() {
+        super.jump();
+        this.currentImage = 0;
+    }
+
+    /**
      * Selects the correct animation frame based on current character state.
      */
     handleAnimation() {

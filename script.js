@@ -105,29 +105,36 @@ function applyDesktopAspect(wrapper, canvas, w, h) {
     wrapper.style.height = Math.min(h, w / ratio) + 'px';
 }
 
+function setupLayoutListeners() {
+    updateLayout();
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', updateLayout);
+    window.addEventListener('resize', () => {
+        updateLayout();
+        if (!isTouchDevice()) hideMobileControls();
+        else if (world && !world.gameEnded) showMobileControls();
+    });
+}
+
+function initUIAndTranslations() {
+    updateMuteButton();
+    updateHighscoreDisplay();
+    applyTranslations();
+    hideMobileControls();
+}
+
+function bindMobileControls() {
+    bindMobileButton('btn-left', 'LEFT');
+    bindMobileButton('btn-right', 'RIGHT');
+    bindMobileButton('btn-jump', 'UP');
+    bindMobileButton('btn-throw', 'D');
+}
+
 /**
  * Initialization function called on page load.
  * Sets up UI state and binds mobile touch controls.
  */
 function init() {
-    updateLayout();
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', updateLayout);
-    }
-    window.addEventListener('resize', () => {
-        updateLayout();
-        if (!isTouchDevice()) {
-            hideMobileControls();
-        } else if (world && !world.gameEnded) {
-            showMobileControls();
-        }
-    });
-    updateMuteButton();
-    updateHighscoreDisplay();
-    applyTranslations();
-    hideMobileControls();
-    bindMobileButton('btn-left', 'LEFT');
-    bindMobileButton('btn-right', 'RIGHT');
-    bindMobileButton('btn-jump', 'UP');
-    bindMobileButton('btn-throw', 'D');
+    setupLayoutListeners();
+    initUIAndTranslations();
+    bindMobileControls();
 }

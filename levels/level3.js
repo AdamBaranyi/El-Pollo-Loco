@@ -17,19 +17,19 @@ function createBackgroundObjectsL3() {
 }
 
 /**
- * Returns the enemy array for level 3 — hardest endboss config.
- * @returns {MovableObject[]}
+ * Returns the enemy configurations for level 3.
  */
-function createEnemiesL3() {
-    const cfg = { speedMultiplier: 1.5, hitStrength: 15 };
-    const cfgS = { speedMultiplier: 1.5, hitStrength: 12 };
-    const endboss = new Endboss({
-        hitStrength: 30,
-        chargeInterval: 1500,
-        chargeMultiplier: 2.2,
-        phaseSpeed: [2.5, 4.0, 6.5]
-    });
-    endboss.x = 5500;
+function getEnemyConfigsL3() {
+    return {
+        cfg: { speedMultiplier: 1.5, hitStrength: 15 },
+        cfgS: { speedMultiplier: 1.5, hitStrength: 12 }
+    };
+}
+
+/**
+ * Returns the chicken array for level 3.
+ */
+function createChickensL3(cfg, cfgS) {
     return [
         new Chicken(700, cfg),    new SmallChicken(900, cfgS),
         new Chicken(1100, cfg),   new SmallChicken(1300, cfgS),
@@ -40,9 +40,26 @@ function createEnemiesL3() {
         new Chicken(3600, cfg),   new SmallChicken(3800, cfgS),
         new Chicken(4100, cfg),   new SmallChicken(4300, cfgS),
         new Chicken(4600, cfg),   new SmallChicken(4800, cfgS),
-        new Chicken(5000, cfg),
-        endboss
+        new Chicken(5000, cfg)
     ];
+}
+
+/**
+ * Returns the endboss for level 3.
+ */
+function createEndbossL3() {
+    const endboss = new Endboss({ hitStrength: 30, chargeInterval: 1500, chargeMultiplier: 2.2, phaseSpeed: [2.5, 4.0, 6.5] });
+    endboss.x = 5500;
+    return endboss;
+}
+
+/**
+ * Returns the enemy array for level 3 — hardest endboss config.
+ * @returns {MovableObject[]}
+ */
+function createEnemiesL3() {
+    const { cfg, cfgS } = getEnemyConfigsL3();
+    return [...createChickensL3(cfg, cfgS), createEndbossL3()];
 }
 
 /**

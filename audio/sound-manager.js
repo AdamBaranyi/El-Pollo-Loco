@@ -5,7 +5,8 @@
  */
 class SoundManager {
     constructor() {
-        this.muted = true;
+        const savedMuted = localStorage.getItem('muted');
+        this.muted = savedMuted !== null ? savedMuted === 'true' : true;
         this.bgAudio = null;
         this.activeTrack = null;
     }

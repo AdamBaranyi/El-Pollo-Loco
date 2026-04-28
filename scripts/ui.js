@@ -82,17 +82,7 @@ function toggleMute() {
     if (!soundManager.muted && !world) soundManager.startMenuMusic();
 }
 
-/**
- * Applies a fake-fullscreen using the actual visual viewport (window.innerWidth/Height).
- * Avoids the iOS landscape bug where screen.width/height return portrait values.
- */
-function applyFakeFullscreen(container) {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const ratio = 720 / 480;
-    const fsW = Math.min(vw, vh * ratio);
-    const fsH = Math.min(vh, vw / ratio);
-    container.classList.add('fake-fullscreen');
+function applyFakeFullscreenStyles(container, vw, vh, fsW, fsH) {
     container.style.position = 'fixed';
     container.style.top    = Math.max(0, (vh - fsH) / 2) + 'px';
     container.style.left   = Math.max(0, (vw - fsW) / 2) + 'px';
@@ -101,6 +91,19 @@ function applyFakeFullscreen(container) {
     container.style.border = 'none';
     container.style.borderRadius = '0';
     container.style.zIndex = '9999';
+}
+
+/**
+ * Applies a fake-fullscreen using the actual visual viewport (window.innerWidth/Height).
+ * Avoids the iOS landscape bug where screen.width/height return portrait values.
+ */
+function applyFakeFullscreen(container) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const fsW = Math.min(vw, vh * (720 / 480));
+    const fsH = Math.min(vh, vw / (720 / 480));
+    container.classList.add('fake-fullscreen');
+    applyFakeFullscreenStyles(container, vw, vh, fsW, fsH);
 }
 
 /**
