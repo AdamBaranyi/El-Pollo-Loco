@@ -12,7 +12,7 @@ class Character extends MovableObject {
     lastSnoreTime = 0;
     currentDeadFrame = 0;
     world;
-    offset = { top: 120, bottom: 10, left: 20, right: 20 };
+    offset = { top: 130, bottom: 15, left: 30, right: 30 };
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -98,7 +98,7 @@ class Character extends MovableObject {
      */
     animate() {
         const id1 = setInterval(() => this.handleMovement(), 1000 / 60);
-        const id2 = setInterval(() => this.handleAnimation(), 100);
+        const id2 = setInterval(() => this.handleAnimation(), 180);
         storeInterval(id1);
         storeInterval(id2);
     }

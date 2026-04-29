@@ -16,11 +16,20 @@ class WorldRenderer {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.drawWorldObjects();
-        this.ctx.translate(-this.camera_x, 0);
+        this.drawWithCamera(() => this.drawWorldObjects());
         this.drawFixedUI();
+        this.drawWithCamera(() => this.addToMap(this.character));
         this.animFrame = requestAnimationFrame(() => this.draw());
+    }
+
+    /**
+     * Translates the canvas by camera_x, runs a drawing callback, then restores.
+     * @param {Function} drawFn - The drawing function to execute within camera scope.
+     */
+    drawWithCamera(drawFn) {
+        this.ctx.translate(this.camera_x, 0);
+        drawFn();
+        this.ctx.translate(-this.camera_x, 0);
     }
 
     /**
@@ -33,7 +42,6 @@ class WorldRenderer {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.enemies);
-        this.addToMap(this.character);
     }
 
     /**

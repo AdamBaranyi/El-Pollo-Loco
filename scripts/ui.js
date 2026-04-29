@@ -82,6 +82,14 @@ function toggleMute() {
     if (!soundManager.muted && !world) soundManager.startMenuMusic();
 }
 
+/**
+ * Applies CSS styles to simulate fullscreen inside the given container.
+ * @param {HTMLElement} container - The element to transform.
+ * @param {number} vw - Viewport width.
+ * @param {number} vh - Viewport height.
+ * @param {number} fsW - Fullscreen target width.
+ * @param {number} fsH - Fullscreen target height.
+ */
 function applyFakeFullscreenStyles(container, vw, vh, fsW, fsH) {
     container.style.position = 'fixed';
     container.style.top    = Math.max(0, (vh - fsH) / 2) + 'px';

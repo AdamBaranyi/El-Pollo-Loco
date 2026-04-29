@@ -230,7 +230,11 @@ class World extends WorldRenderer {
     onEndbossHit(enemy) {
         this.statusBarEndboss.setPercentage(enemy.energy);
         soundManager.endbossHurt();
-        if (enemy.isDead()) { if (enemy.die) enemy.die(); this.score += 500; }
+        if (enemy.isDead()) {
+            this.statusBarEndboss.setPercentage(0);
+            if (enemy.die) enemy.die();
+            this.score += 500;
+        }
     }
 
     /**
@@ -297,22 +301,18 @@ class World extends WorldRenderer {
         cancelAnimationFrame(this.animFrame);
         soundManager.win();
         this.saveHighscore();
-        
+        this.showWinScreenSequence();
+    }
+
+    /**
+     * Shows "You Won" image quickly, then fades in the menu buttons.
+     */
+    showWinScreenSequence() {
         const winScreen = document.getElementById('win-screen');
         const winMenu = winScreen.querySelector('.end-content');
-        
-        // Hide the buttons menu initially
         winMenu.style.display = 'none';
-
-        // Show "You Won" background after a short pause (500ms instead of 1800ms)
-        setTimeout(() => {
-            winScreen.classList.remove('hidden');
-        }, 500);
-
-        // Show the menu overlay buttons after a little more pause
-        setTimeout(() => {
-            winMenu.style.display = ''; // Restores CSS display: flex
-        }, 1500);
+        setTimeout(() => winScreen.classList.remove('hidden'), 500);
+        setTimeout(() => { winMenu.style.display = ''; }, 1500);
     }
 
     /**

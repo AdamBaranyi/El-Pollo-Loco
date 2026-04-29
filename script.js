@@ -77,34 +77,49 @@ function hideMobileControls() {
  */
 function updateLayout() {
     const vp = window.visualViewport;
-    const h = vp ? vp.height : window.innerHeight;
-    const w = vp ? vp.width : window.innerWidth;
+    const height = vp ? vp.height : window.innerHeight;
+    const width = vp ? vp.width : window.innerWidth;
     const wrapper = document.getElementById('wrapper');
     if (wrapper) {
         const canvas = document.getElementById('canvas');
-        if (isTouchDevice() && w > h) applyMobileLandscape(wrapper, canvas, w, h);
-        else applyDesktopAspect(wrapper, canvas, w, h);
+        if (isTouchDevice() && width > height) applyMobileLandscape(wrapper, canvas, width, height);
+        else applyDesktopAspect(wrapper, canvas, width, height);
     }
-    document.body.style.width = w + 'px';
-    document.body.style.height = h + 'px';
+    document.body.style.width = width + 'px';
+    document.body.style.height = height + 'px';
 }
 
-/** Applies native widescreen to fill mobile landscape without distortion. */
-function applyMobileLandscape(wrapper, canvas, w, h) {
-    const newWidth = Math.max(720, 480 * (w / h));
+/** 
+ * Applies native widescreen to fill mobile landscape without distortion. 
+ * @param {HTMLElement} wrapper - The game wrapper element.
+ * @param {HTMLCanvasElement} canvas - The game canvas.
+ * @param {number} width - The viewport width.
+ * @param {number} height - The viewport height.
+ */
+function applyMobileLandscape(wrapper, canvas, width, height) {
+    const newWidth = Math.max(720, 480 * (width / height));
     if (canvas) canvas.width = newWidth;
-    wrapper.style.width = w + 'px';
-    wrapper.style.height = h + 'px';
+    wrapper.style.width = width + 'px';
+    wrapper.style.height = height + 'px';
 }
 
-/** Maintains strict 720x480 aspect ratio to prevent squishing on desktop/portrait. */
-function applyDesktopAspect(wrapper, canvas, w, h) {
+/** 
+ * Maintains strict 720x480 aspect ratio to prevent squishing on desktop/portrait. 
+ * @param {HTMLElement} wrapper - The game wrapper element.
+ * @param {HTMLCanvasElement} canvas - The game canvas.
+ * @param {number} width - The viewport width.
+ * @param {number} height - The viewport height.
+ */
+function applyDesktopAspect(wrapper, canvas, width, height) {
     if (canvas) canvas.width = 720;
     const ratio = 720 / 480;
-    wrapper.style.width = Math.min(w, h * ratio) + 'px';
-    wrapper.style.height = Math.min(h, w / ratio) + 'px';
+    wrapper.style.width = Math.min(width, height * ratio) + 'px';
+    wrapper.style.height = Math.min(height, width / ratio) + 'px';
 }
 
+/**
+ * Initializes layout listeners for resizing and visual viewport changes.
+ */
 function setupLayoutListeners() {
     updateLayout();
     if (window.visualViewport) window.visualViewport.addEventListener('resize', updateLayout);
@@ -115,13 +130,39 @@ function setupLayoutListeners() {
     });
 }
 
+/**
+ * Initializes UI elements like mute button, highscore, translations, and hides mobile controls.
+ */
 function initUIAndTranslations() {
     updateMuteButton();
     updateHighscoreDisplay();
     applyTranslations();
     hideMobileControls();
+    if (!soundManager.muted) soundManager.startMenuMusic();
+    registerAudioUnlock();
 }
 
+/**
+ * Registers a one-time event listener to unlock audio on first user interaction.
+ * Required by the browser Autoplay Policy which blocks audio until interaction.
+ */
+function registerAudioUnlock() {
+    const unlockAudio = () => {
+        if (!soundManager.muted && (!soundManager.bgAudio || soundManager.bgAudio.paused)) {
+            soundManager.startMenuMusic();
+        }
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('keydown', unlockAudio);
+        document.removeEventListener('touchstart', unlockAudio);
+    };
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('keydown', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+}
+
+/**
+ * Binds all mobile touch buttons to their respective keyboard keys.
+ */
 function bindMobileControls() {
     bindMobileButton('btn-left', 'LEFT');
     bindMobileButton('btn-right', 'RIGHT');

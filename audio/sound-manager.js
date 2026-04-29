@@ -5,7 +5,8 @@
  */
 class SoundManager {
     constructor() {
-        this.muted = true;
+        const savedMuted = localStorage.getItem('muted');
+        this.muted = savedMuted !== null ? savedMuted === 'true' : true;
         this.bgAudio = null;
         this.activeTrack = null;
     }
@@ -122,10 +123,11 @@ class SoundManager {
     win() { this.playSound('audio/sounds/game/gameStart.mp3', 1.0); }
 
     /**
-     * Toggles mute state, and pauses/resumes music accordingly.
+     * Toggles mute state, persists it, and pauses/resumes music accordingly.
      */
     toggleMute() {
         this.muted = !this.muted;
+        localStorage.setItem('muted', this.muted);
         if (this.muted) this.stopBgMusic();
         else this.resumeMusic();
         updateMuteButton();
