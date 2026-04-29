@@ -138,7 +138,6 @@ function initUIAndTranslations() {
     updateHighscoreDisplay();
     applyTranslations();
     hideMobileControls();
-    if (!soundManager.muted) soundManager.startMenuMusic();
     registerAudioUnlock();
 }
 
@@ -148,9 +147,7 @@ function initUIAndTranslations() {
  */
 function registerAudioUnlock() {
     const unlockAudio = () => {
-        if (!soundManager.muted && (!soundManager.bgAudio || soundManager.bgAudio.paused)) {
-            soundManager.startMenuMusic();
-        }
+        if (!soundManager.muted) soundManager.startMenuMusic();
         document.removeEventListener('click', unlockAudio);
         document.removeEventListener('keydown', unlockAudio);
         document.removeEventListener('touchstart', unlockAudio);

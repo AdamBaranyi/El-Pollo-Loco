@@ -295,13 +295,16 @@ class World extends WorldRenderer {
 
     /**
      * Stops the game and shows the win screen.
+     * Uses requestAnimationFrame to allow one final draw (showing empty endboss bar) before stopping.
      */
     triggerWin() {
         clearAllIntervals();
-        cancelAnimationFrame(this.animFrame);
         soundManager.win();
         this.saveHighscore();
-        this.showWinScreenSequence();
+        requestAnimationFrame(() => {
+            cancelAnimationFrame(this.animFrame);
+            this.showWinScreenSequence();
+        });
     }
 
     /**

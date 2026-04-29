@@ -95,10 +95,12 @@ class Character extends MovableObject {
 
     /**
      * Starts the character's movement and animation loops.
+     * Ground/hurt animations run at 80ms for responsiveness.
+     * Jump animation is velocity-based (playJumpAnimation handles frame selection).
      */
     animate() {
         const id1 = setInterval(() => this.handleMovement(), 1000 / 60);
-        const id2 = setInterval(() => this.handleAnimation(), 180);
+        const id2 = setInterval(() => this.handleAnimation(), 80);
         storeInterval(id1);
         storeInterval(id2);
     }
