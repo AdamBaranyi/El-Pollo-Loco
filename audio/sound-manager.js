@@ -4,6 +4,9 @@
  * Endboss music and sound effects use Web Audio API synthesis.
  */
 class SoundManager {
+    /**
+     * Creates the SoundManager and initializes the mute state from localStorage.
+     */
     constructor() {
         const savedMuted = localStorage.getItem('muted');
         this.muted = savedMuted !== null ? savedMuted === 'true' : true;

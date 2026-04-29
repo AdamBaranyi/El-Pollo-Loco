@@ -104,6 +104,7 @@ function applyFakeFullscreenStyles(container, vw, vh, fsW, fsH) {
 /**
  * Applies a fake-fullscreen using the actual visual viewport (window.innerWidth/Height).
  * Avoids the iOS landscape bug where screen.width/height return portrait values.
+ * @param {HTMLElement} container - The canvas container element to expand.
  */
 function applyFakeFullscreen(container) {
     const vw = window.innerWidth;
@@ -116,6 +117,7 @@ function applyFakeFullscreen(container) {
 
 /**
  * Removes fake-fullscreen and restores all inline styles.
+ * @param {HTMLElement} container - The container to restore.
  */
 function removeFakeFullscreen(container) {
     container.classList.remove('fake-fullscreen');
@@ -125,7 +127,8 @@ function removeFakeFullscreen(container) {
 }
 
 /**
- * Toggles fullscreen. Native API on desktop browsers, JS fake-fullscreen on iOS Safari.
+ * Toggles fullscreen. Uses native Fullscreen API on desktop, fake-fullscreen on iOS Safari.
+ * @param {HTMLElement} [container] - Optional override; defaults to canvas-container.
  */
 function toggleFullscreen() {
     const container = document.getElementById('canvas-container');
@@ -135,13 +138,20 @@ function toggleFullscreen() {
     enterNativeFullscreen(container);
 }
 
-/** Exits either native or fake fullscreen. */
+/**
+ * Exits either native or fake fullscreen depending on current mode.
+ * @param {boolean} isNative - Whether native fullscreen is active.
+ * @param {HTMLElement} container - The container to restore.
+ */
 function exitCurrentFullscreen(isNative, container) {
     if (isNative) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
     else removeFakeFullscreen(container);
 }
 
-/** Attempts to enter native fullscreen, falls back to fake fullscreen on error/unsupported. */
+/**
+ * Attempts to enter native fullscreen; falls back to fake fullscreen on error or unsupported.
+ * @param {HTMLElement} container - The element to make fullscreen.
+ */
 function enterNativeFullscreen(container) {
     const req = container.requestFullscreen || container.webkitRequestFullscreen;
     if (!req) return applyFakeFullscreen(container);

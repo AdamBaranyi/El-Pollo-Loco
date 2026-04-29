@@ -18,6 +18,7 @@ function createBackgroundObjectsL3() {
 
 /**
  * Returns the enemy configurations for level 3.
+ * @returns {{cfg: {speedMultiplier: number, hitStrength: number}, cfgS: {speedMultiplier: number, hitStrength: number}}}
  */
 function getEnemyConfigsL3() {
     return {
@@ -28,6 +29,9 @@ function getEnemyConfigsL3() {
 
 /**
  * Returns the chicken array for level 3.
+ * @param {Object} cfg - Configuration for normal chickens.
+ * @param {Object} cfgS - Configuration for small chickens.
+ * @returns {MovableObject[]}
  */
 function createChickensL3(cfg, cfgS) {
     return [
@@ -46,6 +50,7 @@ function createChickensL3(cfg, cfgS) {
 
 /**
  * Returns the endboss for level 3.
+ * @returns {Endboss}
  */
 function createEndbossL3() {
     const endboss = new Endboss({ hitStrength: 30, chargeInterval: 1500, chargeMultiplier: 2.2, phaseSpeed: [2.5, 4.0, 6.5] });

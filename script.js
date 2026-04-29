@@ -57,7 +57,10 @@ function isTouchDevice() {
             (navigator.msMaxTouchPoints > 0));
 }
 
-/** Shows mobile controls during gameplay, but only on touch devices. */
+/**
+ * Shows mobile controls during gameplay, but only on touch devices.
+ * Triggered when a game level starts.
+ */
 function showMobileControls() {
     if (isTouchDevice()) {
         const el = document.getElementById('mobile-controls');
@@ -65,7 +68,12 @@ function showMobileControls() {
     }
 }
 
-/** Hides mobile controls on menu/non-game screens. */
+
+
+/**
+ * Hides mobile controls from the UI.
+ * Triggered on menu/non-game screens or when exiting the game.
+ */
 function hideMobileControls() {
     const el = document.getElementById('mobile-controls');
     if (el) el.style.display = 'none';

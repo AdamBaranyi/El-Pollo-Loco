@@ -8,10 +8,15 @@ class Character extends MovableObject {
     width = 120;
     speed = 3;
     groundY = 110;
+    /** @type {number} Timestamp of the last movement to trigger idle/long-idle. */
     lastMoveTime = Date.now();
+    /** @type {number} Timestamp of the last snore sound played. */
     lastSnoreTime = 0;
+    /** @type {number} Current frame index for the death animation. */
     currentDeadFrame = 0;
+    /** @type {World} Reference to the game world. */
     world;
+    /** @type {{top: number, bottom: number, left: number, right: number}} Hitbox offsets. */
     offset = { top: 130, bottom: 15, left: 30, right: 30 };
 
     IMAGES_IDLE = [

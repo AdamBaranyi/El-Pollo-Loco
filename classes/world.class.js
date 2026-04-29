@@ -3,16 +3,27 @@
  * Extends WorldRenderer for all canvas drawing logic.
  */
 class World extends WorldRenderer {
+    /** @type {Character} The player character instance. */
     character = new Character();
+    /** @type {ThrowableObject[]} Currently active thrown bottles. */
     throwableObjects = [];
+    /** @type {number} Camera horizontal translation value. */
     camera_x = 0;
+    /** @type {number} Count of coins collected in the current level. */
     coinsCollected = 0;
+    /** @type {number} Count of bottles currently held by the character. */
     bottlesCollected = 0;
+    /** @type {boolean} Prevents rapid-fire throwing. */
     throwPending = false;
+    /** @type {boolean} True if game over or win condition met. */
     gameEnded = false;
+    /** @type {boolean} True if the game is currently paused. */
     paused = false;
+    /** @type {number} Current player score. */
     score = 0;
+    /** @type {number} requestAnimationFrame ID for stopping the loop. */
     animFrame;
+    /** @type {Endboss} Reference to the level's endboss. */
     endboss;
 
     /**

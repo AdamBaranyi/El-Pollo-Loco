@@ -1,3 +1,7 @@
+/**
+ * Translation strings for all supported languages (English and German).
+ * Add new keys here and reference them in HTML via the data-i18n attribute.
+ */
 const translations = {
     en: {
         "rotate": "Turn your device to play!",
@@ -85,14 +89,23 @@ const translations = {
     }
 };
 
+/** @type {string} The currently active language code ('en' or 'de'). */
 let currentLanguage = localStorage.getItem('language') || 'en';
 
+/**
+ * Sets the active language and re-applies all translations to the DOM.
+ * @param {string} lang - The language code to switch to ('en' or 'de').
+ */
 function setLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('language', lang);
     applyTranslations();
 }
 
+/**
+ * Iterates over all elements with a data-i18n attribute and updates their text
+ * to match the current language from the translations object.
+ */
 function applyTranslations() {
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
